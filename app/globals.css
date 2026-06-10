@@ -1,26 +1,62 @@
 @import "tailwindcss";
 
 :root {
+  --mv-primary: #1a56db;
+  --mv-primary-dark: #1648c0;
+  --mv-navy: #0f2c6b;
+  --mv-red: #dc2626;
+  --mv-red-dark: #b91c1c;
+  --mv-bg: #f8faff;
+  --mv-text: #111827;
+  --mv-muted: #6b7280;
+  --mv-border: #e5e7eb;
+  --mv-blue-light: #ebf2ff;
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: var(--mv-text);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-mv-primary: var(--mv-primary);
+  --color-mv-primary-dark: var(--mv-primary-dark);
+  --color-mv-navy: var(--mv-navy);
+  --color-mv-red: var(--mv-red);
+  --color-mv-red-dark: var(--mv-red-dark);
+  --color-mv-bg: var(--mv-bg);
+  --color-mv-text: var(--mv-text);
+  --color-mv-muted: var(--mv-muted);
+  --color-mv-border: var(--mv-border);
+  --color-mv-blue-light: var(--mv-blue-light);
+  --font-sans: var(--font-inter);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
 }
+
+* {
+  scroll-behavior: smooth;
+}
+
+.mv-container {
+  @apply mx-auto w-full max-w-[1280px] px-4 md:px-6 lg:px-8;
+}
+
+.section-title {
+  @apply text-[22px] font-bold leading-tight text-mv-text md:text-[26px];
+}
+
+.section-title-blue {
+  @apply text-[22px] font-bold leading-tight text-mv-primary md:text-[26px];
+}
+
+.hero-pattern {
+  background-color: var(--mv-navy);
+  background-image:
+    radial-gradient(circle at 80% 20%, rgba(26, 86, 219, 0.35) 0%, transparent 45%),
+    linear-gradient(135deg, #0f2c6b 0%, #1a56db 55%, #0f2c6b 100%);
+}
+
