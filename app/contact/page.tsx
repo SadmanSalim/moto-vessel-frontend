@@ -49,9 +49,9 @@ export default function ContactPage() {
         </section>
 
         {/* Contact cards */}
-        <section className="mv-container -mt-10 grid gap-4 pb-12 sm:grid-cols-2 lg:grid-cols-4">
+        <section className="mv-container -mt-8 grid gap-4 pb-12 sm:-mt-10 sm:grid-cols-2 lg:grid-cols-4">
           {contactMethods.map((method) => (
-            <article key={method.title} className="rounded-xl border border-mv-border bg-white p-6 shadow-sm">
+            <article key={method.title} className="mv-card mv-card-hover p-6">
               <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-mv-blue-light text-mv-primary">
                 <method.icon size={20} />
               </div>

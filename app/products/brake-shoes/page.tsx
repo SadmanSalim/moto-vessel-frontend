@@ -55,9 +55,9 @@ export default function ProductListingPage() {
 
         {/* Main content */}
         <section id="products" className="bg-mv-bg py-10 md:py-12">
-          <div className="mv-container grid gap-8 lg:grid-cols-[280px_1fr]">
+          <div className="mv-container grid gap-8 lg:grid-cols-[minmax(0,280px)_1fr]">
             {/* Sidebar filters */}
-            <aside className="h-fit rounded-xl border border-mv-border bg-white p-5">
+            <aside className="h-fit rounded-2xl border border-mv-border bg-white p-5 lg:sticky lg:top-24">
               <div className="mb-5">
                 <label className="mb-1.5 block text-[12px] font-semibold text-mv-text">Sort By</label>
                 <div className="relative">
@@ -154,7 +154,7 @@ export default function ProductListingPage() {
 
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {brakeShoeProducts.map((product) => (
-                  <article key={product.id} className="overflow-hidden rounded-xl border border-mv-border bg-white shadow-sm transition hover:shadow-md">
+                  <article key={product.id} className="mv-card mv-card-hover overflow-hidden">
                     <Link href={`/products/${product.slug}`} className="relative block aspect-[4/3] bg-mv-bg p-4">
                       <Image src={product.image} alt={product.name} width={200} height={150} className="h-full w-full object-contain" />
                     </Link>

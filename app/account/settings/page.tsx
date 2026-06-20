@@ -41,10 +41,10 @@ export default function AccountSettingsPage() {
   return (
     <>
       <Header />
-      <main className="bg-mv-bg py-8 md:py-12">
-        <div className="mv-container grid gap-6 lg:grid-cols-[240px_1fr_280px]">
+      <main className="bg-mv-bg py-6 md:py-10">
+        <div className="mv-container grid gap-6 lg:grid-cols-[minmax(0,240px)_1fr_minmax(0,280px)] lg:gap-8">
           {/* Left sidebar */}
-          <aside className="space-y-4">
+          <aside className="space-y-4 lg:sticky lg:top-24 lg:self-start">
             <div className="flex items-center gap-3 rounded-xl border border-mv-border bg-white p-4">
               <div className="relative h-12 w-12 overflow-hidden rounded-full bg-mv-blue-light">
                 <Image src="/images/placeholders/logo.svg" alt="Captain Vane" fill className="object-cover" />
@@ -200,7 +200,7 @@ export default function AccountSettingsPage() {
           </div>
 
           {/* Right sidebar */}
-          <aside className="space-y-4">
+          <aside className="space-y-4 lg:sticky lg:top-24 lg:self-start">
             {/* Payments */}
             <div className="rounded-xl border border-mv-border bg-white p-5">
               <div className="mb-4 flex items-center justify-between">

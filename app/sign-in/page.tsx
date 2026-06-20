@@ -12,18 +12,26 @@ export default function SignInPage() {
   return (
     <>
       <Header />
-      <main className="min-h-[calc(100vh-200px)] bg-mv-bg">
+      <main className="min-h-[calc(100vh-200px)] bg-white">
         <div className="grid min-h-[600px] lg:grid-cols-2">
-          {/* Left panel */}
-          <div className="relative hidden overflow-hidden bg-gradient-to-br from-mv-navy via-mv-primary/80 to-mv-bg p-10 lg:flex lg:flex-col lg:justify-between">
-            <div className="absolute inset-0 opacity-10" style={{ backgroundImage: "radial-gradient(circle, white 1px, transparent 1px)", backgroundSize: "24px 24px" }} aria-hidden />
+          {/* Left panel — light gray with pattern */}
+          <div className="relative hidden overflow-hidden bg-[#eef2f7] p-10 lg:flex lg:flex-col lg:justify-between">
+            <div
+              className="pointer-events-none absolute inset-0 opacity-[0.35]"
+              style={{
+                backgroundImage:
+                  "repeating-linear-gradient(135deg, transparent, transparent 20px, rgba(26,86,219,0.04) 20px, rgba(26,86,219,0.04) 21px)",
+              }}
+              aria-hidden
+            />
             <div className="relative">
               <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-mv-primary">MOTOVESSEL</p>
               <h1 className="mt-6 text-[32px] font-extrabold leading-tight text-mv-navy md:text-[38px]">
                 Redefining the <span className="text-mv-primary">Digital Cockpit</span> experience.
               </h1>
               <p className="mt-4 max-w-md text-[14px] leading-relaxed text-mv-muted">
-                Access your personalized fleet dashboard, real-time performance telemetry, and exclusive engineering insights.
+                Access your personalized fleet dashboard, real-time performance telemetry, and exclusive engineering
+                insights.
               </p>
               <div className="mt-10 flex gap-10">
                 <div>
@@ -39,15 +47,15 @@ export default function SignInPage() {
             <p className="relative text-[10px] font-mono uppercase tracking-widest text-mv-muted">Protocol Active</p>
           </div>
 
-          {/* Right panel */}
-          <div className="flex items-center justify-center p-6 md:p-10">
-            <div className="w-full max-w-[420px] rounded-xl border border-mv-border bg-white p-8 shadow-lg">
+          {/* Right panel — login card */}
+          <div className="flex items-center justify-center bg-mv-bg p-6 md:p-10">
+            <div className="w-full max-w-[420px] rounded-2xl border border-mv-border bg-white p-8 shadow-[0_8px_40px_rgba(26,86,219,0.1)]">
               <h2 className="text-[24px] font-bold text-mv-navy">Welcome Back</h2>
               <p className="mt-1 text-[13px] text-mv-muted">Experience the pinnacle of automotive engineering.</p>
 
               <form className="mt-7 space-y-5" onSubmit={(e) => e.preventDefault()}>
                 <div>
-                  <label htmlFor="email" className="mb-1.5 block text-[12px] font-semibold text-mv-primary">
+                  <label htmlFor="email" className="mb-1.5 block text-[11px] font-bold uppercase tracking-wider text-mv-primary">
                     Email Address
                   </label>
                   <div className="relative">
@@ -56,14 +64,14 @@ export default function SignInPage() {
                       id="email"
                       type="email"
                       placeholder="you@example.com"
-                      className="w-full rounded-xl border border-mv-border py-3 pl-10 pr-4 text-[13px] outline-none focus:border-mv-primary"
+                      className="mv-input pl-10"
                     />
                   </div>
                 </div>
 
                 <div>
                   <div className="mb-1.5 flex items-center justify-between">
-                    <label htmlFor="password" className="text-[12px] font-semibold text-mv-primary">
+                    <label htmlFor="password" className="text-[11px] font-bold uppercase tracking-wider text-mv-primary">
                       Password
                     </label>
                     <Link href="#" className="text-[11px] font-medium text-mv-primary hover:underline">
@@ -76,7 +84,7 @@ export default function SignInPage() {
                       id="password"
                       type={showPassword ? "text" : "password"}
                       placeholder="••••••••"
-                      className="w-full rounded-xl border border-mv-border py-3 pl-10 pr-10 text-[13px] outline-none focus:border-mv-primary"
+                      className="mv-input pl-10 pr-10"
                     />
                     <button
                       type="button"
@@ -89,10 +97,7 @@ export default function SignInPage() {
                   </div>
                 </div>
 
-                <button
-                  type="submit"
-                  className="w-full rounded-xl bg-mv-primary py-3.5 text-[14px] font-bold text-white transition hover:bg-mv-primary-dark"
-                >
+                <button type="submit" className="mv-btn-primary w-full py-3.5">
                   Sign In to Dashboard
                 </button>
               </form>
@@ -104,10 +109,16 @@ export default function SignInPage() {
               </div>
 
               <div className="grid grid-cols-2 gap-3">
-                <button type="button" className="flex items-center justify-center gap-2 rounded-xl border border-mv-border py-2.5 text-[12px] font-semibold text-mv-text transition hover:bg-mv-bg">
+                <button
+                  type="button"
+                  className="flex items-center justify-center gap-2 rounded-xl border border-mv-border py-2.5 text-[12px] font-semibold text-mv-text transition hover:bg-mv-bg"
+                >
                   <span className="text-[16px]">G</span> Google
                 </button>
-                <button type="button" className="flex items-center justify-center gap-2 rounded-xl border border-mv-border py-2.5 text-[12px] font-semibold text-mv-text transition hover:bg-mv-bg">
+                <button
+                  type="button"
+                  className="flex items-center justify-center gap-2 rounded-xl border border-mv-border py-2.5 text-[12px] font-semibold text-mv-text transition hover:bg-mv-bg"
+                >
                   <span className="text-[16px] text-blue-600">f</span> Facebook
                 </button>
               </div>
@@ -120,9 +131,15 @@ export default function SignInPage() {
               </p>
 
               <div className="mt-4 flex justify-center gap-4 text-[10px] font-semibold uppercase tracking-wider text-mv-muted">
-                <Link href="#" className="hover:text-mv-primary">Privacy</Link>
-                <Link href="#" className="hover:text-mv-primary">Terms</Link>
-                <Link href="/contact" className="hover:text-mv-primary">Support</Link>
+                <Link href="#" className="hover:text-mv-primary">
+                  Privacy
+                </Link>
+                <Link href="#" className="hover:text-mv-primary">
+                  Terms
+                </Link>
+                <Link href="/contact" className="hover:text-mv-primary">
+                  Support
+                </Link>
               </div>
             </div>
           </div>

@@ -119,15 +119,21 @@ export default function ProductDetailPage({ params }: { params: Promise<{ slug: 
               </div>
 
               <div className="mt-4 flex flex-wrap gap-3">
-                <button type="button" className="flex items-center gap-2 rounded-xl bg-mv-primary px-6 py-3 text-[13px] font-bold text-white">
+                <button type="button" className="mv-btn-primary gap-2">
                   <ShoppingCart size={16} />
                   Add to cart
                 </button>
-                <Link href="/checkout" className="flex items-center gap-2 rounded-xl bg-mv-red px-6 py-3 text-[13px] font-bold text-white">
+                <Link href="/checkout" className="mv-btn-red gap-2">
                   Buy Now
                   <ArrowRight size={16} />
                 </Link>
               </div>
+              <button
+                type="button"
+                className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl bg-[#25D366] py-3 text-[13px] font-bold text-white transition hover:bg-[#1fb855]"
+              >
+                Order on WhatsApp
+              </button>
               <button type="button" className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl border-2 border-mv-primary py-3 text-[13px] font-semibold text-mv-primary">
                 <ClipboardList size={16} />
                 Calculate EMI

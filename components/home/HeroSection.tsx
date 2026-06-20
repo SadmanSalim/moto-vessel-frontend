@@ -29,15 +29,15 @@ export function HeroSection() {
           <div className="mt-7 flex flex-wrap gap-3">
             <Link
               href="/products/brake-shoes"
-              className="rounded-full bg-white px-7 py-3 text-[13px] font-bold text-mv-primary shadow transition hover:bg-mv-blue-light"
+              className="rounded-full bg-white px-7 py-3 text-[13px] font-bold text-mv-primary shadow-md transition hover:bg-mv-blue-light"
             >
-              Shop Now
+              Get Started
             </Link>
             <Link
               href="/services"
               className="rounded-full border-2 border-white/80 px-7 py-3 text-[13px] font-bold text-white transition hover:bg-white/10"
             >
-              Explore Services
+              Learn More
             </Link>
           </div>
 

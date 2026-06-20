@@ -4,6 +4,7 @@
   --mv-primary: #1a56db;
   --mv-primary-dark: #1648c0;
   --mv-navy: #0f2c6b;
+  --mv-navy-deep: #0a2558;
   --mv-red: #dc2626;
   --mv-red-dark: #b91c1c;
   --mv-bg: #f8faff;
@@ -11,6 +12,7 @@
   --mv-muted: #6b7280;
   --mv-border: #e5e7eb;
   --mv-blue-light: #ebf2ff;
+  --mv-accent-sky: #7eb3ff;
   --background: #ffffff;
   --foreground: var(--mv-text);
 }
@@ -21,6 +23,7 @@
   --color-mv-primary: var(--mv-primary);
   --color-mv-primary-dark: var(--mv-primary-dark);
   --color-mv-navy: var(--mv-navy);
+  --color-mv-navy-deep: var(--mv-navy-deep);
   --color-mv-red: var(--mv-red);
   --color-mv-red-dark: var(--mv-red-dark);
   --color-mv-bg: var(--mv-bg);
@@ -28,13 +31,19 @@
   --color-mv-muted: var(--mv-muted);
   --color-mv-border: var(--mv-border);
   --color-mv-blue-light: var(--mv-blue-light);
+  --color-mv-accent-sky: var(--mv-accent-sky);
   --font-sans: var(--font-inter);
+}
+
+html {
+  overflow-x: hidden;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
+  overflow-x: hidden;
 }
 
 * {
@@ -60,3 +69,79 @@ body {
     linear-gradient(135deg, #0f2c6b 0%, #1a56db 55%, #0f2c6b 100%);
 }
 
+/* Shared UI primitives */
+.mv-card {
+  @apply rounded-xl border border-mv-border bg-white shadow-sm;
+}
+
+.mv-card-hover {
+  @apply transition hover:-translate-y-0.5 hover:shadow-md;
+}
+
+.mv-input {
+  @apply w-full rounded-xl border border-mv-border px-4 py-3 text-[13px] outline-none transition focus:border-mv-primary focus:ring-2 focus:ring-mv-primary/10;
+}
+
+.mv-btn-primary {
+  @apply inline-flex items-center justify-center rounded-xl bg-mv-primary px-6 py-3 text-[13px] font-bold text-white transition hover:bg-mv-primary-dark;
+}
+
+.mv-btn-red {
+  @apply inline-flex items-center justify-center rounded-xl bg-mv-red px-6 py-3 text-[13px] font-bold text-white transition hover:bg-mv-red-dark;
+}
+
+.mv-btn-outline {
+  @apply inline-flex items-center justify-center rounded-xl border-2 border-mv-primary px-6 py-3 text-[13px] font-semibold text-mv-primary transition hover:bg-mv-blue-light;
+}
+
+/* Header Consultancy button — flowing blue shine */
+@keyframes consultancy-shine {
+  0% {
+    transform: translateX(-150%) skewX(-18deg);
+  }
+  100% {
+    transform: translateX(250%) skewX(-18deg);
+  }
+}
+
+.mv-consultancy-btn {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.mv-consultancy-btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(59, 130, 246, 0.2) 30%,
+    rgba(126, 179, 255, 0.65) 50%,
+    rgba(59, 130, 246, 0.2) 70%,
+    transparent 100%
+  );
+  animation: consultancy-shine 2.8s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.mv-consultancy-btn:hover::before {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(59, 130, 246, 0.3) 30%,
+    rgba(147, 197, 253, 0.85) 50%,
+    rgba(59, 130, 246, 0.3) 70%,
+    transparent 100%
+  );
+}
+
+.mv-consultancy-btn:hover {
+  box-shadow: 0 0 14px rgba(59, 130, 246, 0.35);
+  border-color: rgba(255, 255, 255, 0.45);
+}

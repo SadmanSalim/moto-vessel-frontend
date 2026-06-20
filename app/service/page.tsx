@@ -14,23 +14,23 @@ export default function ServicePage() {
       <Header />
       <main className="bg-mv-bg">
         {/* Hero / Appointment */}
-        <section className="mv-container py-12 md:py-16">
+        <section className="mv-container py-10 md:py-16">
           <div className="grid items-start gap-8 lg:grid-cols-2">
             {/* Video card */}
-            <div className="overflow-hidden rounded-xl border border-mv-border bg-white shadow-sm">
+            <div className="overflow-hidden rounded-2xl border border-mv-border bg-white shadow-sm">
               <div className="relative aspect-video bg-mv-navy">
                 <Image src="/images/placeholders/video.svg" alt="Expert Car Service" fill className="object-cover opacity-60" />
                 <button
                   type="button"
-                  className="absolute left-1/2 top-1/2 flex h-16 w-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-mv-primary shadow-lg transition hover:scale-105"
+                  className="absolute left-1/2 top-1/2 flex h-16 w-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white/95 text-mv-primary shadow-lg transition hover:scale-105"
                   aria-label="Play video"
                 >
                   <Play size={28} className="ml-1" fill="currentColor" />
                 </button>
               </div>
-              <div className="border-t border-mv-border bg-white p-5">
+              <div className="border-t border-mv-border bg-white p-5 md:p-6">
                 <h3 className="text-[16px] font-bold text-mv-text">Expert Car Service</h3>
-                <p className="mt-1 text-[12px] text-mv-muted">
+                <p className="mt-1 text-[12px] leading-relaxed text-mv-muted">
                   Professional automotive care from certified technicians with genuine parts and transparent pricing.
                 </p>
               </div>
@@ -39,14 +39,14 @@ export default function ServicePage() {
             {/* Booking form */}
             <div>
               <p className="text-[12px] font-semibold uppercase tracking-widest text-mv-primary">Schedule Now</p>
-              <h1 className="mt-2 text-[30px] font-bold leading-tight text-mv-text md:text-[36px]">
+              <h1 className="mt-2 text-[28px] font-bold leading-tight text-mv-text md:text-[36px]">
                 Book our <span className="text-mv-primary">Apointment</span>
               </h1>
               <p className="mt-3 text-[13px] leading-relaxed text-mv-muted">
                 Fill in your details and our team will confirm your service slot within 24 hours.
               </p>
 
-              <div className="mt-6 rounded-xl border border-mv-primary/20 bg-white p-6 shadow-[0_0_30px_rgba(26,86,219,0.08)]">
+              <div className="mt-6 rounded-2xl border border-mv-primary/20 bg-gradient-to-b from-mv-blue-light/40 to-white p-6 shadow-[0_0_30px_rgba(26,86,219,0.08)]">
                 <div className="mb-5 flex items-center gap-2 text-mv-primary">
                   <Bookmark size={18} />
                   <span className="text-[14px] font-semibold">Book Your Service</span>
@@ -57,7 +57,7 @@ export default function ServicePage() {
                       key={field}
                       type="text"
                       placeholder={field}
-                      className="w-full rounded-xl border border-mv-border px-4 py-3 text-[13px] outline-none focus:border-mv-primary"
+                      className="mv-input"
                     />
                   ))}
                   <button

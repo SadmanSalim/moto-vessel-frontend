@@ -11,6 +11,8 @@ const config: Config = {
         "mv-primary": "#1A56DB",
         "mv-primary-dark": "#1648C0",
         "mv-navy": "#0F2C6B",
+        "mv-navy-deep": "#0A2558",
+        "mv-accent-sky": "#7EB3FF",
         "mv-red": "#DC2626",
         "mv-red-dark": "#B91C1C",
         "mv-bg": "#F8FAFF",

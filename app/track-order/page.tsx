@@ -14,21 +14,24 @@ export default function TrackOrderPage() {
   return (
     <>
       <Header />
-      <main className="bg-mv-bg">
-        {/* Page header */}
-        <div className="border-b border-mv-border bg-white py-6">
+      <main className="bg-mv-bg pb-4 md:pb-8">
+        {/* Page header bar */}
+        <div className="border-b border-mv-border bg-white py-5 md:py-6">
           <div className="mv-container flex flex-wrap items-center justify-between gap-4">
-            <Link href="/" className="flex items-center gap-1.5 text-[13px] font-medium text-mv-muted hover:text-mv-primary">
+            <Link
+              href="/"
+              className="flex items-center gap-1.5 text-[13px] font-medium text-mv-muted transition hover:text-mv-primary"
+            >
               <ArrowLeft size={16} />
               Back
             </Link>
-            <div className="text-center">
-              <h1 className="text-[24px] font-bold text-mv-text md:text-[28px]">Track Your Order</h1>
-              <p className="mt-1 text-[13px] text-mv-muted">
+            <div className="order-last w-full text-center sm:order-none sm:w-auto">
+              <h1 className="text-[22px] font-bold text-mv-text md:text-[28px]">Track Your Order</h1>
+              <p className="mt-1 text-[12px] text-mv-muted md:text-[13px]">
                 Enter Your Order Details to track your motovassel shipment.
               </p>
             </div>
-            <div className="flex items-center gap-1.5 text-[12px] font-medium text-mv-red">
+            <div className="hidden items-center gap-1.5 text-[12px] font-medium text-mv-red sm:flex">
               <MapPin size={14} />
               Motovassel Order Tracking
             </div>
@@ -36,10 +39,10 @@ export default function TrackOrderPage() {
         </div>
 
         {/* Form card */}
-        <div className="mv-container py-12 md:py-16">
-          <div className="mx-auto max-w-[560px] rounded-xl border border-mv-border bg-white p-8 shadow-sm md:p-10">
+        <div className="mv-container py-10 md:py-14">
+          <div className="mx-auto max-w-[560px] rounded-2xl border border-mv-border/80 bg-white p-7 shadow-[0_8px_40px_rgba(26,86,219,0.12)] md:p-10">
             <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-mv-blue-light text-mv-primary">
+              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-mv-blue-light text-mv-primary">
                 <Search size={20} />
               </div>
               <div>
@@ -57,7 +60,7 @@ export default function TrackOrderPage() {
                   id="orderNumber"
                   type="text"
                   placeholder="Enter Your Order Number"
-                  className="w-full rounded-xl border border-mv-border px-4 py-3 text-[13px] outline-none focus:border-mv-primary"
+                  className="mv-input"
                 />
               </div>
               <div>
@@ -68,13 +71,10 @@ export default function TrackOrderPage() {
                   id="email"
                   type="email"
                   placeholder="Your123example@email.com"
-                  className="w-full rounded-xl border border-mv-border px-4 py-3 text-[13px] outline-none focus:border-mv-primary"
+                  className="mv-input"
                 />
               </div>
-              <button
-                type="submit"
-                className="flex w-full items-center justify-center gap-2 rounded-xl bg-mv-red py-3.5 text-[14px] font-bold text-white transition hover:bg-mv-red-dark"
-              >
+              <button type="submit" className="mv-btn-red w-full gap-2">
                 <Search size={16} />
                 Track Order
               </button>

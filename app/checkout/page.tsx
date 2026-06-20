@@ -50,16 +50,16 @@ export default function CheckoutPage() {
         </div>
 
         <div className="mv-container py-8 md:py-12">
-          <div className="grid gap-8 lg:grid-cols-[1fr_400px]">
+          <div className="grid gap-8 lg:grid-cols-[1fr_minmax(0,400px)]">
             {/* Left column */}
             <div className="space-y-6">
               {/* Contact */}
-              <section className="rounded-xl border border-mv-border bg-white p-6">
+              <section className="mv-card p-6">
                 <div className="mb-4 flex items-center justify-between">
                   <h2 className="text-[16px] font-bold text-mv-text">Contact Information</h2>
                   <Link href="/sign-in" className="text-[12px] font-semibold text-mv-primary hover:underline">Log In</Link>
                 </div>
-                <input type="email" placeholder="Email Address" className="w-full rounded-xl border border-mv-border px-4 py-3 text-[13px] outline-none focus:border-mv-primary" />
+                <input type="email" placeholder="Email Address" className="mv-input" />
                 <label className="mt-3 flex cursor-pointer items-center gap-2.5 text-[12px] text-mv-muted">
                   <button
                     type="button"
@@ -73,7 +73,7 @@ export default function CheckoutPage() {
               </section>
 
               {/* Delivery */}
-              <section className="rounded-xl border border-mv-border bg-white p-6">
+              <section className="mv-card p-6">
                 <h2 className="mb-4 text-[16px] font-bold text-mv-text">Delivery Details</h2>
                 <div className="grid gap-3 sm:grid-cols-2">
                   <input type="text" placeholder="First Name" className="rounded-xl border border-mv-border px-4 py-3 text-[13px] outline-none focus:border-mv-primary" />
@@ -87,7 +87,7 @@ export default function CheckoutPage() {
               </section>
 
               {/* Shipping */}
-              <section className="rounded-xl border border-mv-border bg-white p-6">
+              <section className="mv-card p-6">
                 <h2 className="mb-4 text-[16px] font-bold text-mv-text">Shipping Velocity</h2>
                 <div className="space-y-3">
                   {shippingOptions.map((opt) => (
@@ -111,7 +111,7 @@ export default function CheckoutPage() {
               </section>
 
               {/* Payment */}
-              <section className="rounded-xl border border-mv-border bg-white p-6">
+              <section className="mv-card p-6">
                 <h2 className="mb-4 text-[16px] font-bold text-mv-text">Secure Payment</h2>
                 <div className="mb-5 flex border-b border-mv-border">
                   {paymentTabs.map((tab) => (
