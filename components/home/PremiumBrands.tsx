@@ -5,11 +5,11 @@ export function PremiumBrands() {
   return (
     <section className="border-t border-[var(--mv-border)] bg-white py-10 md:py-12" aria-labelledby="brands-heading">
       <div className="mv-container">
-        <h2 id="brands-heading" className="section-title text-center">
+        <h2 id="brands-heading" className="section-title reveal text-center">
           Premium Brands
         </h2>
 
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-x-10 gap-y-6 md:gap-x-14">
+        <div className="reveal mt-8 flex flex-wrap items-center justify-center gap-x-10 gap-y-6 md:gap-x-14">
           {premiumBrands.map((brand) => (
             <div
               key={brand.id}

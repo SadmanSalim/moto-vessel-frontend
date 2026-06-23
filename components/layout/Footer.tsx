@@ -51,15 +51,15 @@ export function Footer() {
           <p className="text-center text-[11px] font-medium uppercase tracking-[0.22em] text-[#7EB3FF]">
             Find us near you
           </p>
-          <h2 className="mt-2 text-center text-[26px] font-bold leading-tight text-white md:text-[32px]">
+          <h2 className="reveal mt-2 text-center text-[26px] font-bold leading-tight text-white md:text-[32px]">
             Our <span className="text-[#7EB3FF]">Branches</span>
           </h2>
 
           <div className="mt-8 flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] sm:grid sm:snap-none sm:grid-cols-2 sm:overflow-visible sm:pb-0 lg:grid-cols-5 lg:gap-4 [&::-webkit-scrollbar]:hidden">
-            {branches.map((branch) => (
+            {branches.map((branch, index) => (
               <article
                 key={branch.id}
-                className="group relative min-w-[200px] shrink-0 snap-start overflow-hidden rounded-xl border border-[#3B6FD4]/40 bg-[#0D3580]/50 p-4 backdrop-blur-sm transition duration-300 hover:border-[#5B9AFF]/60 hover:bg-[#0D3580]/70 sm:min-w-0"
+                className={`group reveal relative min-w-[200px] shrink-0 snap-start overflow-hidden rounded-xl border border-[#3B6FD4]/40 bg-[#0D3580]/50 p-4 backdrop-blur-sm transition duration-300 hover:border-[#5B9AFF]/60 hover:bg-[#0D3580]/70 sm:min-w-0 d${index + 1}`}
               >
                 <div className="mb-3 inline-flex items-center justify-center rounded border border-white/25 bg-white/[0.06] px-2 py-1">
                   <span className="text-[8px] font-bold tracking-[0.15em] text-white/75">{branch.category}</span>
@@ -93,7 +93,7 @@ export function Footer() {
       {/* Main footer grid */}
       <div className="border-t border-white/10">
         <div className="mv-container grid gap-10 py-12 md:grid-cols-2 md:gap-8 lg:grid-cols-5 lg:gap-6 lg:py-16">
-          <div className="md:col-span-2 lg:col-span-1">
+          <div className="reveal d1 md:col-span-2 lg:col-span-1">
             <Image
               src="/images/logo.png"
               alt="MotoVessel"
@@ -136,8 +136,8 @@ export function Footer() {
             </div>
           </div>
 
-          {Object.entries(footerLinks).map(([heading, links]) => (
-            <div key={heading}>
+          {Object.entries(footerLinks).map(([heading, links], index) => (
+            <div key={heading} className={`reveal d${Math.min(index + 1, 4)}`}>
               <h3 className="text-[13px] font-bold text-white">{heading}</h3>
               <ul className="mt-4 space-y-2.5">
                 {links.map((link) => (

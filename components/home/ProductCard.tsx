@@ -4,11 +4,12 @@ import type { Product } from "@/data/products";
 
 type ProductCardProps = {
   product: Product;
+  revealClass?: string;
 };
 
-export function ProductCard({ product }: ProductCardProps) {
+export function ProductCard({ product, revealClass = "" }: ProductCardProps) {
   return (
-    <article className="mv-card mv-card-hover flex h-full flex-col overflow-hidden">
+    <article className={`mv-card mv-card-hover flex h-full flex-col overflow-hidden ${revealClass}`}>
       <Link href={`/products/${product.slug ?? product.id}`} className="relative aspect-[4/3] bg-mv-bg p-5">
         <Image src={product.image} alt={product.name} width={240} height={180} className="h-full w-full object-contain" />
       </Link>

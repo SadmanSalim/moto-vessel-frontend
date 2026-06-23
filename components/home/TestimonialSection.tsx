@@ -6,15 +6,15 @@ export function TestimonialSection() {
   return (
     <section className="bg-mv-bg py-12 md:py-14" aria-labelledby="testimonials-heading">
       <div className="mv-container">
-        <h2 id="testimonials-heading" className="section-title text-center">
+        <h2 id="testimonials-heading" className="section-title reveal text-center">
           Trusted by Enthusiasts
         </h2>
 
         <div className="mt-8 grid gap-4 md:grid-cols-3 md:gap-5">
-          {testimonials.map((item) => (
+          {testimonials.map((item, index) => (
             <article
               key={item.id}
-              className="flex flex-col rounded-[12px] border border-[var(--mv-border)] bg-white p-5 shadow-[0_2px_10px_rgba(26,43,74,0.05)]"
+              className={`reveal flex flex-col rounded-[12px] border border-[var(--mv-border)] bg-white p-5 shadow-[0_2px_10px_rgba(26,43,74,0.05)] d${index + 1}`}
             >
               <div className="mb-3 flex gap-0.5">
                 {Array.from({ length: item.rating }).map((_, i) => (

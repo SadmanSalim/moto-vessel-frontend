@@ -94,54 +94,164 @@ body {
   @apply inline-flex items-center justify-center rounded-xl border-2 border-mv-primary px-6 py-3 text-[13px] font-semibold text-mv-primary transition hover:bg-mv-blue-light;
 }
 
-/* Header Consultancy button — flowing blue shine */
-@keyframes consultancy-shine {
+/* Header button — wave ripple on hover */
+@keyframes wave-ripple {
   0% {
-    transform: translateX(-150%) skewX(-18deg);
+    box-shadow: 0 0 0 0 rgba(100, 160, 255, 0.5);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(100, 160, 255, 0);
   }
   100% {
-    transform: translateX(250%) skewX(-18deg);
+    box-shadow: 0 0 0 0 rgba(100, 160, 255, 0);
   }
 }
 
-.mv-consultancy-btn {
-  position: relative;
-  overflow: hidden;
-  isolation: isolate;
+.track-order-btn:hover,
+.consultancy-btn:hover {
+  animation: wave-ripple 1s ease-out infinite;
 }
 
-.mv-consultancy-btn::before {
-  content: "";
-  position: absolute;
+.btn-consultancy {
+  background: linear-gradient(90deg, #1565c0, #42a5f5, #90caf9, #42a5f5, #1565c0);
+  background-size: 300% 100%;
+  animation: waveGradient 2.5s ease infinite;
+  border: none !important;
+  color: #ffffff !important;
+  font-weight: 700;
+}
+
+@keyframes waveGradient {
+  0% {
+    background-position: 100% 50%;
+  }
+  50% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-22px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.reveal-left.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.reveal-right {
+  opacity: 0;
+  transform: translateX(22px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.reveal-right.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.d1 {
+  transition-delay: 0.07s;
+}
+
+.d2 {
+  transition-delay: 0.13s;
+}
+
+.d3 {
+  transition-delay: 0.18s;
+}
+
+.d4 {
+  transition-delay: 0.24s;
+}
+
+.d5 {
+  transition-delay: 0.3s;
+}
+
+.d6 {
+  transition-delay: 0.36s;
+}
+
+.mobile-nav-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 999;
+}
+
+.mobile-nav-drawer {
+  position: fixed;
   top: 0;
   left: 0;
-  z-index: 0;
-  width: 50%;
-  height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(59, 130, 246, 0.2) 30%,
-    rgba(126, 179, 255, 0.65) 50%,
-    rgba(59, 130, 246, 0.2) 70%,
-    transparent 100%
-  );
-  animation: consultancy-shine 2.8s ease-in-out infinite;
+  height: 100vh;
+  width: 280px;
+  background: #ffffff;
+  z-index: 1000;
+  box-shadow: 4px 0 24px rgba(0, 0, 0, 0.13);
+  transform: translateX(-100%);
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mobile-nav-drawer.open {
+  transform: translateX(0);
+}
+
+.scroll-to-top-btn {
+  position: fixed;
+  right: 24px;
+  bottom: 28px;
+  z-index: 999;
+  display: flex;
+  height: 46px;
+  width: 46px;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 9999px;
+  color: #ffffff;
+  background: linear-gradient(135deg, #1565c0, #2196f3);
+  box-shadow: 0 4px 16px rgba(21, 101, 192, 0.45);
+  opacity: 0;
+  transform: translateY(8px);
   pointer-events: none;
+  transition: all 0.2s ease;
 }
 
-.mv-consultancy-btn:hover::before {
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(59, 130, 246, 0.3) 30%,
-    rgba(147, 197, 253, 0.85) 50%,
-    rgba(59, 130, 246, 0.3) 70%,
-    transparent 100%
-  );
+.scroll-to-top-btn.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
 }
 
-.mv-consultancy-btn:hover {
-  box-shadow: 0 0 14px rgba(59, 130, 246, 0.35);
-  border-color: rgba(255, 255, 255, 0.45);
+.scroll-to-top-btn:hover {
+  background: linear-gradient(135deg, #0d47a1, #1565c0);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(21, 101, 192, 0.55);
+}
+
+.road-animation-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
 }

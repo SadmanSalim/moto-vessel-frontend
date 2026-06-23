@@ -1,3 +1,5 @@
+"use client";
+
 import { CategorySlider } from "@/components/home/CategorySlider";
 import { EmergencyBanner } from "@/components/home/EmergencyBanner";
 import { FeaturedPartsSection } from "@/components/home/FeaturedPartsSection";
@@ -11,8 +13,11 @@ import { VehicleFilterBar } from "@/components/home/VehicleFilterBar";
 import { VideoGallery } from "@/components/home/VideoGallery";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
+import { useReveal } from "@/hooks/useReveal";
 
 export default function Home() {
+  useReveal();
+
   return (
     <>
       <Header />

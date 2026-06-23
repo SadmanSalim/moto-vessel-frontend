@@ -10,7 +10,7 @@ export function VideoGallery() {
     <section className="bg-white py-12 md:py-14" aria-labelledby="video-heading">
       <div className="mv-container">
         <div className="mb-6 flex items-center justify-between gap-4">
-          <h2 id="video-heading" className="section-title">
+          <h2 id="video-heading" className="section-title reveal">
             Video Gallery
           </h2>
           <Link href="#" className="shrink-0 text-[13px] font-semibold text-mv-primary transition hover:underline">

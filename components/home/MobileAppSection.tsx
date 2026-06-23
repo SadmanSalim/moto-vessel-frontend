@@ -12,7 +12,7 @@ export function MobileAppSection() {
   return (
     <section className="bg-mv-primary py-12 md:py-16" aria-labelledby="app-heading">
       <div className="mv-container grid items-center gap-10 md:grid-cols-2">
-        <div>
+        <div className="reveal-left">
           <h2 id="app-heading" className="text-[28px] font-bold text-white md:text-[32px]">
             Order Parts Anywhere
           </h2>
@@ -47,7 +47,7 @@ export function MobileAppSection() {
           </div>
         </div>
 
-        <div className="flex items-end justify-center gap-3 md:justify-end">
+        <div className="reveal-right flex items-end justify-center gap-3 md:justify-end">
           {[0.85, 1, 0.9].map((scale, i) => (
             <div
               key={i}

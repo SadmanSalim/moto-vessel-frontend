@@ -21,7 +21,7 @@ export function FeaturedPartsSection() {
     <section id="featured-parts" className="bg-mv-bg py-12 md:py-16" aria-labelledby="featured-heading">
       <div className="mv-container">
         <div className="mb-6 flex items-center justify-between">
-          <h2 id="featured-heading" className="section-title">
+          <h2 id="featured-heading" className="section-title reveal">
             Featured Parts
           </h2>
           <Link href="/products/brake-shoes" className="text-[13px] font-semibold text-mv-primary hover:underline">
@@ -50,8 +50,8 @@ export function FeaturedPartsSection() {
         </div>
 
         <div className="mt-7 grid gap-4 sm:grid-cols-2 lg:grid-cols-4" role="tabpanel">
-          {activeProducts.slice(0, 4).map((product) => (
-            <ProductCard key={`${activeTab}-${product.id}`} product={product} />
+          {activeProducts.slice(0, 4).map((product, index) => (
+            <ProductCard key={`${activeTab}-${product.id}`} product={product} revealClass={`reveal d${index + 1}`} />
           ))}
         </div>
       </div>
