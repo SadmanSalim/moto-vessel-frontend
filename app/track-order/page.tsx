@@ -4,18 +4,20 @@ import { ArrowLeft, MapPin, Search } from "lucide-react";
 import Link from "next/link";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
+import { useReveal } from "@/hooks/useReveal";
 
 const demoOrders = [
-  { orderNumber: "3526", email: "demo@motovessel.com" },
-  { orderNumber: "jp1002", email: "demo@motovessel.com" },
+  { orderNumber: "3526", email: "alfardinmahi@gmail.com" },
+  { orderNumber: "jp1002", email: "alfardinmahi@gmail.com" },
 ];
 
 export default function TrackOrderPage() {
+  useReveal();
+
   return (
     <>
       <Header />
       <main className="bg-mv-bg pb-4 md:pb-8">
-        {/* Page header bar */}
         <div className="border-b border-mv-border bg-white py-5 md:py-6">
           <div className="mv-container flex flex-wrap items-center justify-between gap-4">
             <Link
@@ -35,19 +37,21 @@ export default function TrackOrderPage() {
               <MapPin size={14} />
               Motovassel Order Tracking
             </div>
+            <div className="w-full text-center text-[11px] font-medium text-mv-muted sm:hidden">
+              ← Back | Track Your Order | Motovassel Order Tracking
+            </div>
           </div>
         </div>
 
-        {/* Form card */}
         <div className="mv-container py-10 md:py-14">
-          <div className="mx-auto max-w-[560px] rounded-2xl border border-mv-border/80 bg-white p-7 shadow-[0_8px_40px_rgba(26,86,219,0.12)] md:p-10">
+          <div className="reveal mx-auto max-w-[560px] rounded-2xl border border-mv-border/80 bg-white p-7 shadow-[0_8px_40px_rgba(26,86,219,0.12)] md:p-10">
             <div className="flex items-center gap-3">
               <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-mv-blue-light text-mv-primary">
                 <Search size={20} />
               </div>
               <div>
                 <h2 className="text-[18px] font-bold text-mv-text">Track Your Order</h2>
-                <p className="text-[12px] text-mv-muted">Enter your order number and email to check status</p>
+                <p className="text-[12px] text-mv-muted">Enter Your order number and email address to view your order status</p>
               </div>
             </div>
 
@@ -74,9 +78,9 @@ export default function TrackOrderPage() {
                   className="mv-input"
                 />
               </div>
-              <button type="submit" className="mv-btn-red w-full gap-2">
-                <Search size={16} />
+              <button type="submit" className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#c92127] py-3 text-[14px] font-bold text-white transition hover:bg-[#a81c22]">
                 Track Order
+                <Search size={16} />
               </button>
             </form>
 

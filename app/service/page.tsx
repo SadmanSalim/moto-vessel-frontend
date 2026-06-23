@@ -1,104 +1,105 @@
 "use client";
 
-import { Bookmark, Car, Clock, Globe, Play } from "lucide-react";
+import { CheckCircle2 } from "lucide-react";
 import Image from "next/image";
-import { oilChangeWarnings } from "@/data/services";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
+import { useReveal } from "@/hooks/useReveal";
 
-const warningIcons = { car: Car, clock: Clock, globe: Globe };
+const serviceCards = [
+  "Engine Oil Change",
+  "Car Paint",
+  "Cleaning",
+  "Repair",
+  "Health Check",
+  "Car Paint",
+  "Cleaning",
+  "Engine Oil Change",
+  "Cleaning",
+  "Engine Oil Change",
+].map((title, index) => ({
+  title,
+  description: "Premium diagnostics, authentic components, and master technician care for precision road-readiness.",
+  image: index % 2 === 0 ? "/images/placeholders/product.svg" : "/images/placeholders/hero.svg",
+}));
 
 export default function ServicePage() {
+  useReveal();
+
   return (
     <>
       <Header />
-      <main className="bg-mv-bg">
-        {/* Hero / Appointment */}
-        <section className="mv-container py-10 md:py-16">
-          <div className="grid items-start gap-8 lg:grid-cols-2">
-            {/* Video card */}
-            <div className="overflow-hidden rounded-2xl border border-mv-border bg-white shadow-sm">
-              <div className="relative aspect-video bg-mv-navy">
-                <Image src="/images/placeholders/video.svg" alt="Expert Car Service" fill className="object-cover opacity-60" />
-                <button
-                  type="button"
-                  className="absolute left-1/2 top-1/2 flex h-16 w-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white/95 text-mv-primary shadow-lg transition hover:scale-105"
-                  aria-label="Play video"
-                >
-                  <Play size={28} className="ml-1" fill="currentColor" />
-                </button>
+      <main className="bg-white">
+        <section className="relative overflow-hidden bg-[#06142b]">
+          <div
+            className="absolute inset-0"
+            style={{
+              backgroundImage:
+                "linear-gradient(90deg, rgba(3,12,27,0.84) 0%, rgba(3,12,27,0.72) 40%, rgba(3,12,27,0.55) 100%), url('/images/placeholders/hero.svg')",
+              backgroundPosition: "center",
+              backgroundSize: "cover",
+            }}
+            aria-hidden
+          />
+          <div className="mv-container relative grid gap-10 py-12 md:py-16 lg:grid-cols-[1.1fr_320px] lg:items-center">
+            <div className="max-w-[600px] reveal-left text-white">
+              <div className="mb-3">
+                <Image src="/images/logo.png" alt="MotoVessel" width={120} height={36} className="h-auto w-[96px]" />
               </div>
-              <div className="border-t border-mv-border bg-white p-5 md:p-6">
-                <h3 className="text-[16px] font-bold text-mv-text">Expert Car Service</h3>
-                <p className="mt-1 text-[12px] leading-relaxed text-mv-muted">
-                  Professional automotive care from certified technicians with genuine parts and transparent pricing.
-                </p>
-              </div>
+              <h1 className="max-w-[500px] text-[34px] font-extrabold leading-[1.1] md:text-[44px]">
+                Keep Your Vehicle Safe &amp; Road-Ready with Expert Care.
+              </h1>
+              <ul className="mt-5 space-y-3 text-[13px] text-white/88">
+                {[
+                  "Best technicians network",
+                  "Affordable & Transparent Service Pricing",
+                  "Digital process, customer support",
+                ].map((item) => (
+                  <li key={item} className="flex items-center gap-2.5">
+                    <CheckCircle2 size={16} className="shrink-0 text-[#8fc5ff]" />
+                    {item}
+                  </li>
+                ))}
+              </ul>
             </div>
 
-            {/* Booking form */}
-            <div>
-              <p className="text-[12px] font-semibold uppercase tracking-widest text-mv-primary">Schedule Now</p>
-              <h1 className="mt-2 text-[28px] font-bold leading-tight text-mv-text md:text-[36px]">
-                Book our <span className="text-mv-primary">Apointment</span>
-              </h1>
-              <p className="mt-3 text-[13px] leading-relaxed text-mv-muted">
-                Fill in your details and our team will confirm your service slot within 24 hours.
-              </p>
-
-              <div className="mt-6 rounded-2xl border border-mv-primary/20 bg-gradient-to-b from-mv-blue-light/40 to-white p-6 shadow-[0_0_30px_rgba(26,86,219,0.08)]">
-                <div className="mb-5 flex items-center gap-2 text-mv-primary">
-                  <Bookmark size={18} />
-                  <span className="text-[14px] font-semibold">Book Your Service</span>
-                </div>
-                <form className="space-y-3" onSubmit={(e) => e.preventDefault()}>
-                  {["Car Model", "Work Description", "Your Name", "Your Number", "Your Location"].map((field) => (
-                    <input
-                      key={field}
-                      type="text"
-                      placeholder={field}
-                      className="mv-input"
-                    />
-                  ))}
-                  <button
-                    type="submit"
-                    className="w-full rounded-xl bg-mv-primary py-3.5 text-[14px] font-bold text-white transition hover:bg-mv-primary-dark"
-                  >
-                    Submit
-                  </button>
-                </form>
-              </div>
+            <div className="reveal-right justify-self-start rounded-2xl border border-white/15 bg-white/8 p-5 text-white shadow-[0_22px_50px_rgba(0,0,0,0.28)] backdrop-blur-sm lg:justify-self-end">
+              <p className="text-[12px] text-white/65">Road-tested confidence</p>
+              <p className="mt-2 text-[26px] font-extrabold">1,78,000+Services delivered</p>
+              <button
+                type="button"
+                className="mt-5 inline-flex items-center rounded-[10px] bg-[#1565c0] px-6 py-3 text-[13px] font-bold text-white shadow-[0_10px_24px_rgba(21,101,192,0.34)] transition hover:-translate-y-0.5 hover:bg-[#0d47a1]"
+              >
+                Order Now
+              </button>
             </div>
           </div>
         </section>
 
-        {/* Oil change warning section */}
-        <section className="bg-white py-12 md:py-16">
-          <div className="mv-container text-center">
-            <span className="inline-block rounded-full bg-red-50 px-4 py-1 text-[11px] font-semibold text-mv-red">
-              Important Warning 🔥
-            </span>
-            <h2 className="mt-4 text-[26px] font-bold text-mv-text md:text-[30px]">
-              Why Regular <span className="text-mv-primary">Engine Oil Change</span> Matters
-            </h2>
-            <p className="mx-auto mt-3 max-w-2xl text-[13px] leading-relaxed text-mv-muted">
-              Regular oil changes are essential for engine longevity, performance, and reliability. Neglecting this simple
-              maintenance can lead to costly repairs.
-            </p>
+        <section className="bg-white py-10 md:py-14">
+          <div className="mv-container">
+            <div className="reveal text-center">
+              <h2 className="text-[28px] font-bold text-[#1a2744]">Select Service</h2>
+              <p className="mx-auto mt-2 max-w-[540px] text-[13px] leading-relaxed text-[#5c7099]">
+                Discover precision-crafted care packages built for performance, protection, and everyday reliability.
+              </p>
+            </div>
 
-            <div className="mt-10 grid gap-5 md:grid-cols-3">
-              {oilChangeWarnings.map((item) => {
-                const Icon = warningIcons[item.icon];
-                return (
-                  <article key={item.id} className="rounded-xl border border-mv-border bg-white p-6 text-left shadow-sm">
-                    <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-full bg-mv-blue-light text-mv-primary">
-                      <Icon size={20} />
-                    </div>
-                    <h3 className="text-[15px] font-bold text-mv-text">{item.title}</h3>
-                    <p className="mt-2 text-[12px] leading-relaxed text-mv-muted">{item.description}</p>
-                  </article>
-                );
-              })}
+            <div className="mt-8 grid gap-4 md:grid-cols-2">
+              {serviceCards.map((service, index) => (
+                <article
+                  key={`${service.title}-${index}`}
+                  className={`reveal d${(index % 6) + 1} group grid grid-cols-[1fr_110px] items-center gap-4 rounded-[12px] border border-[#d6e4f7] bg-white p-5 shadow-[0_10px_28px_rgba(13,71,161,0.06)] transition hover:-translate-y-[2px] hover:shadow-[0_14px_32px_rgba(13,71,161,0.12)]`}
+                >
+                  <div>
+                    <h3 className="text-[16px] font-bold text-[#1a2744]">{service.title}</h3>
+                    <p className="mt-2 text-[12px] leading-relaxed text-[#5c7099]">{service.description}</p>
+                  </div>
+                  <div className="relative h-[92px] overflow-hidden rounded-[10px] border border-[#e9f0fb] bg-[#f6f9ff]">
+                    <Image src={service.image} alt={service.title} fill className="object-cover opacity-90 transition group-hover:scale-105" />
+                  </div>
+                </article>
+              ))}
             </div>
           </div>
         </section>

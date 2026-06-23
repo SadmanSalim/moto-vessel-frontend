@@ -1,168 +1,232 @@
 "use client";
 
-import { Clock, CloudUpload, Globe, Mail, MapPin, MessageCircle, Phone, Shield } from "lucide-react";
+import { CloudUpload, Globe, Mail, MapPin, MessageCircle, Phone, Shield } from "lucide-react";
 import Link from "next/link";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
+import { useReveal } from "@/hooks/useReveal";
 
 const contactMethods = [
-  { icon: Phone, title: "Phone Support", desc: "Call us for immediate technical assistance.", action: "Call Now", href: "tel:+8801322910229" },
-  { icon: Mail, title: "Email", desc: "Send us your inquiry for a detailed response.", action: "Send Message", href: "mailto:contact@motovessel.com" },
-  { icon: MapPin, title: "Visit Store", desc: "Come visit our showroom for an in-person shopping.", action: "Find Location", href: "/store-locator" },
-  { icon: MessageCircle, title: "Live Chat", desc: "Real-time support for quick questions and help.", action: "Start Chat", href: "#" },
+  {
+    icon: Phone,
+    title: "Phone Support",
+    desc: "Direct line to our master technicians for immediate assistance.",
+    action: "Call Now",
+    href: "tel:18006686837",
+  },
+  {
+    icon: Mail,
+    title: "Email",
+    desc: "Detailed inquiries regarding custom builds and orders.",
+    action: "Send Message",
+    href: "mailto:concierge@motovessel.com",
+  },
+  {
+    icon: MapPin,
+    title: "Visit Store",
+    desc: "Experience the precision at one of our premium showrooms.",
+    action: "Find Location",
+    href: "/store-locator",
+  },
+  {
+    icon: MessageCircle,
+    title: "Live Chat",
+    desc: "Real-time collaboration with our parts specialist team.",
+    action: "Start Chat",
+    href: "#",
+  },
 ];
 
-const showroomHours = [
-  { day: "Monday - Friday", time: "08:00 AM - 08:00 PM" },
-  { day: "Saturday", time: "09:00 AM - 06:00 PM" },
-  { day: "Sunday", time: "Closed for Testing", closed: true },
-];
-
-const flagshipHubs = [
-  { name: "Stuttgart Command Center", address: "Mercedesstraße 100, 70372 Stuttgart, Germany" },
-  { name: "Los Angeles Studio", address: "1200 S Figueroa St, Los Angeles, CA 90015, USA" },
-  { name: "Tokyo Precision Lab", address: "2-11-3 Shibuya, Shibuya City, Tokyo 150-0002, Japan" },
+const hubs = [
+  {
+    name: "Stuttgart Command Center",
+    address: "Waiblinger St. 13173 Stuttgart, Germany",
+  },
+  {
+    name: "Los Angeles Studio",
+    address: "2020 S Central Ave, Los Angeles, CA 90021",
+  },
+  {
+    name: "Tokyo Precision Lab",
+    address: "2-15-7 Yurikamome, Chiyoda-City, Tokyo 100-0006",
+  },
 ];
 
 export default function ContactPage() {
+  useReveal();
+
   return (
     <>
       <Header />
-      <main>
-        {/* Hero */}
-        <section className="relative bg-mv-navy py-20 text-center text-white md:py-28">
-          <div className="absolute inset-0 opacity-40" style={{ backgroundImage: "url('/images/placeholders/hero.svg')", backgroundSize: "cover" }} aria-hidden />
-          <div className="absolute inset-0 bg-mv-navy/80" aria-hidden />
-          <div className="mv-container relative">
-            <h1 className="text-[36px] font-extrabold md:text-[44px]">Get In Touch</h1>
-            <div className="mt-6 flex flex-wrap justify-center gap-8">
-              <p className="flex items-center gap-2 text-[14px]">
-                <Phone size={16} className="text-mv-primary" />
-                +88 01322-910229
-              </p>
-              <p className="flex items-center gap-2 text-[14px]">
-                <Mail size={16} className="text-mv-primary" />
-                contact@motovessel.com
-              </p>
+      <main className="bg-[#f7f9fd]">
+        <section className="relative overflow-hidden py-14 text-center text-white md:py-20">
+          <div
+            className="absolute inset-0"
+            style={{
+              backgroundImage:
+                "linear-gradient(180deg, rgba(5,17,39,0.78), rgba(5,17,39,0.82)), url('/images/placeholders/hero.svg')",
+              backgroundPosition: "center",
+              backgroundSize: "cover",
+            }}
+            aria-hidden
+          />
+          <div className="mv-container relative reveal">
+            <h1 className="text-[40px] font-extrabold leading-none md:text-[52px]">Get In Touch</h1>
+            <div className="mt-5 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-[13px] text-white/85">
+              <span className="flex items-center gap-2">
+                <Phone size={15} className="text-[#9fd0ff]" />
+                1-800-MOTO-VESSEL
+              </span>
+              <span className="flex items-center gap-2">
+                <Mail size={15} className="text-[#9fd0ff]" />
+                concierge@motovessel.com
+              </span>
             </div>
           </div>
         </section>
 
-        {/* Contact cards */}
-        <section className="mv-container -mt-8 grid gap-4 pb-12 sm:-mt-10 sm:grid-cols-2 lg:grid-cols-4">
-          {contactMethods.map((method) => (
-            <article key={method.title} className="mv-card mv-card-hover p-6">
-              <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-mv-blue-light text-mv-primary">
-                <method.icon size={20} />
-              </div>
-              <h3 className="text-[15px] font-bold text-mv-text">{method.title}</h3>
-              <p className="mt-2 text-[12px] leading-relaxed text-mv-muted">{method.desc}</p>
-              <Link href={method.href} className="mt-4 inline-block text-[12px] font-semibold text-mv-primary hover:underline">
-                {method.action}
-              </Link>
-            </article>
-          ))}
+        <section className="mv-container -mt-7 pb-10 md:-mt-9 md:pb-14">
+          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+            {contactMethods.map((method, index) => (
+              <article
+                key={method.title}
+                className={`reveal d${index + 1} rounded-[16px] border border-[#d6e4f7] bg-white p-5 shadow-[0_12px_34px_rgba(13,71,161,0.08)]`}
+              >
+                <div className="flex h-11 w-11 items-center justify-center rounded-[12px] bg-[#edf5ff] text-[#1565c0]">
+                  <method.icon size={20} />
+                </div>
+                <h3 className="mt-4 text-[16px] font-bold text-[#1a2744]">{method.title}</h3>
+                <p className="mt-2 text-[12px] leading-relaxed text-[#5c7099]">{method.desc}</p>
+                <Link href={method.href} className="mt-4 inline-block text-[12px] font-semibold text-[#1976d2] hover:underline">
+                  {method.action}
+                </Link>
+              </article>
+            ))}
+          </div>
         </section>
 
-        {/* Hours + features */}
-        <section className="bg-mv-bg py-12">
-          <div className="mv-container grid gap-8 md:grid-cols-2">
-            <div>
-              <h2 className="text-[18px] font-bold text-mv-primary">Showroom Hours</h2>
-              <ul className="mt-4 space-y-3">
-                {showroomHours.map((row) => (
-                  <li key={row.day} className="flex justify-between border-b border-mv-border pb-3 text-[13px]">
-                    <span className="font-medium text-mv-text">{row.day}</span>
-                    <span className={row.closed ? "font-semibold text-mv-red" : "text-mv-muted"}>{row.time}</span>
-                  </li>
+        <section className="mv-container pb-10 md:pb-14">
+          <div className="grid gap-5 lg:grid-cols-[1.1fr_0.9fr]">
+            <div className="reveal-left rounded-[18px] bg-white p-6 shadow-[0_10px_30px_rgba(13,71,161,0.06)]">
+              <h2 className="text-[22px] font-bold text-[#1565c0]">Showroom Hours</h2>
+              <div className="mt-5 space-y-4">
+                {[
+                  ["Monday–Friday", "08:00 AM–08:00 PM"],
+                  ["Saturday", "09:00 AM–06:00 PM"],
+                  ["Sunday", "Closed for Testing"],
+                ].map(([day, time]) => (
+                  <div key={day} className="flex items-center justify-between border-b border-[#eef3fb] pb-3">
+                    <span className="text-[13px] font-semibold text-[#1a2744]">{day}</span>
+                    <span className="text-[12px] text-[#5c7099]">{time}</span>
+                  </div>
                 ))}
-              </ul>
+              </div>
             </div>
+
             <div className="space-y-4">
               {[
-                { icon: Shield, title: "OEM Precision", desc: "Every part is meticulously tested for accuracy and performance." },
-                { icon: Globe, title: "Global Express", desc: "Fast and reliable shipping across the globe for all your automotive needs." },
-              ].map((feat) => (
-                <div key={feat.title} className="flex gap-4 rounded-xl border border-mv-border bg-white p-5">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-mv-blue-light text-mv-primary">
-                    <feat.icon size={20} />
+                {
+                  icon: Shield,
+                  title: "OEM Precision",
+                  desc: "Factory-grade components and measurement-perfect engineering for every service workflow.",
+                },
+                {
+                  icon: Globe,
+                  title: "Global Express",
+                  desc: "Rapid logistics coordination for custom parts and international support routing.",
+                },
+              ].map((item, index) => (
+                <div
+                  key={item.title}
+                  className={`reveal-right d${index + 1} rounded-[18px] border border-[#d6e4f7] bg-white p-5 shadow-[0_10px_30px_rgba(13,71,161,0.06)]`}
+                >
+                  <div className="flex h-11 w-11 items-center justify-center rounded-[12px] bg-[#edf5ff] text-[#1565c0]">
+                    <item.icon size={20} />
                   </div>
-                  <div>
-                    <h3 className="text-[14px] font-bold text-mv-text">{feat.title}</h3>
-                    <p className="mt-1 text-[12px] text-mv-muted">{feat.desc}</p>
-                  </div>
+                  <h3 className="mt-4 text-[16px] font-bold text-[#1a2744]">{item.title}</h3>
+                  <p className="mt-2 text-[12px] leading-relaxed text-[#5c7099]">{item.desc}</p>
                 </div>
               ))}
             </div>
           </div>
         </section>
 
-        {/* Quote form */}
-        <section className="mv-container py-12">
-          <div className="overflow-hidden rounded-xl border border-mv-border bg-white shadow-sm">
-            <div className="bg-mv-navy px-6 py-5 text-white md:px-8">
-              <h2 className="text-[20px] font-bold">Request a Precision Quote</h2>
-              <p className="mt-1 text-[13px] text-white/70">Fill out the details below and get a customized quote for your vehicle.</p>
+        <section className="mv-container pb-10 md:pb-16">
+          <div className="reveal mx-auto max-w-[860px] overflow-hidden rounded-[20px] border border-[#d6e4f7] bg-white shadow-[0_14px_34px_rgba(13,71,161,0.12)]">
+            <div className="bg-[#0d47a1] px-6 py-5 text-white">
+              <h2 className="text-[22px] font-bold">Request a Precision Quote</h2>
+              <p className="mt-1 text-[12px] text-white/75">
+                Submit your vehicle details and part requirements for a bespoke pricing offer.
+              </p>
             </div>
-            <form className="space-y-6 p-6 md:p-8" onSubmit={(e) => e.preventDefault()}>
+            <form className="space-y-5 p-6 md:p-8" onSubmit={(e) => e.preventDefault()}>
               <div>
-                <p className="mb-3 text-[13px] font-semibold text-mv-text">Personal Information</p>
-                <div className="grid gap-3 sm:grid-cols-2">
-                  <input type="text" placeholder="Full Name" className="rounded-xl border border-mv-border px-4 py-3 text-[13px] outline-none focus:border-mv-primary" />
-                  <input type="email" placeholder="Email Address" className="rounded-xl border border-mv-border px-4 py-3 text-[13px] outline-none focus:border-mv-primary" />
+                <p className="mb-3 text-[12px] font-bold text-[#1a2744]">Step 1 Personal Information</p>
+                <div className="grid gap-3 md:grid-cols-2">
+                  <input className="mv-input" placeholder="Full Name" />
+                  <input className="mv-input" placeholder="Email Address" />
                 </div>
               </div>
               <div>
-                <p className="mb-3 text-[13px] font-semibold text-mv-text">Vehicle Identification</p>
-                <div className="grid gap-3 sm:grid-cols-3">
-                  <select className="rounded-xl border border-mv-border px-4 py-3 text-[13px] outline-none">
+                <p className="mb-3 text-[12px] font-bold text-[#1a2744]">Step 2 Vehicle Identification</p>
+                <div className="grid gap-3 md:grid-cols-3">
+                  <select className="mv-input">
                     <option>Year</option>
-                    <option>2024</option>
-                    <option>2023</option>
+                    <option>2026</option>
+                    <option>2025</option>
                   </select>
-                  <input type="text" placeholder="Make" className="rounded-xl border border-mv-border px-4 py-3 text-[13px] outline-none focus:border-mv-primary" />
-                  <input type="text" placeholder="Model" className="rounded-xl border border-mv-border px-4 py-3 text-[13px] outline-none focus:border-mv-primary" />
+                  <input className="mv-input" placeholder="Make" />
+                  <input className="mv-input" placeholder="Model" />
                 </div>
               </div>
               <div>
-                <p className="mb-3 text-[13px] font-semibold text-mv-text">Part Requirements</p>
-                <textarea rows={4} placeholder="Part Description" className="w-full resize-none rounded-xl border border-mv-border px-4 py-3 text-[13px] outline-none focus:border-mv-primary" />
-                <div className="mt-3 flex flex-col items-center justify-center rounded-xl border-2 border-dashed border-mv-border bg-mv-bg py-10 text-center">
-                  <CloudUpload size={32} className="text-mv-muted" />
-                  <p className="mt-3 text-[12px] text-mv-muted">Drag &amp; drop files here or click to upload.</p>
-                  <p className="mt-1 text-[11px] text-mv-muted">Max file size: 5MB. Formats: JPG, PNG, PDF.</p>
+                <p className="mb-3 text-[12px] font-bold text-[#1a2744]">Step 3 Part Requirements</p>
+                <textarea rows={4} className="mv-input resize-none" placeholder="Part Description" />
+                <div className="mt-3 flex min-h-[130px] flex-col items-center justify-center rounded-[14px] border-2 border-dashed border-[#d6e4f7] bg-[#f7fbff] text-center">
+                  <CloudUpload size={28} className="text-[#7da1d3]" />
+                  <p className="mt-3 text-[12px] font-medium text-[#5c7099]">Drag &amp; drop engineering files here</p>
+                  <p className="mt-1 text-[11px] text-[#7e90b2]">or browse from your device</p>
                 </div>
               </div>
-              <button type="submit" className="w-full rounded-xl bg-mv-navy py-3.5 text-[14px] font-bold text-white transition hover:bg-mv-primary">
+              <button className="w-full rounded-[12px] bg-[#1565c0] py-3 text-[13px] font-bold text-white transition hover:bg-[#0d47a1]">
                 Generate Precision Quote
               </button>
             </form>
           </div>
         </section>
 
-        {/* Global hubs */}
         <section className="bg-white py-12 md:py-16">
           <div className="mv-container">
-            <h2 className="text-center text-[24px] font-bold text-mv-text">Global Flagship Hubs</h2>
-            <div className="mt-10 grid gap-8 lg:grid-cols-2">
-              <div className="flex flex-col items-center">
-                <svg viewBox="0 0 400 500" className="h-[300px] w-full max-w-[360px]" aria-label="Bangladesh map">
-                  <path d="M200,50 C280,80 320,150 310,220 C300,290 260,350 220,400 C180,450 140,460 120,420 C100,380 110,300 130,240 C150,180 160,100 200,50 Z" fill="#22c55e" opacity="0.7" />
-                  <circle cx="200" cy="180" r="8" fill="#1A56DB" />
-                  <circle cx="170" cy="260" r="8" fill="#DC2626" />
-                  <circle cx="230" cy="320" r="8" fill="#f59e0b" />
+            <h2 className="reveal text-center text-[28px] font-bold text-[#1a2744]">Global Flagship Hubs</h2>
+            <div className="mt-8 grid gap-8 lg:grid-cols-[1.05fr_0.95fr]">
+              <div className="reveal-left rounded-[20px] border border-[#d6e4f7] bg-white p-6 shadow-[0_10px_32px_rgba(13,71,161,0.08)]">
+                <svg viewBox="0 0 420 420" className="mx-auto h-[320px] w-full max-w-[360px]" aria-label="Bangladesh map">
+                  <path
+                    d="M83 184c15-43 40-90 82-113 29-17 69-17 108 1 41 19 70 54 81 93 10 39 7 79-14 109-16 24-42 36-63 59-30 33-34 63-64 67-30 4-45-28-70-51-20-18-49-28-68-53-22-28-19-73 8-112Z"
+                    fill="#9bd58a"
+                  />
+                  <circle cx="170" cy="178" r="11" fill="#1d4ed8" />
+                  <circle cx="250" cy="214" r="11" fill="#ef4444" />
+                  <circle cx="218" cy="125" r="11" fill="#fbbf24" />
+                  <circle cx="126" cy="242" r="11" fill="#0f766e" />
+                  <text x="210" y="377" textAnchor="middle" className="fill-[#0f5132] text-[24px] font-extrabold">
+                    SAFE WORK
+                  </text>
                 </svg>
-                <p className="mt-4 text-[28px] font-extrabold text-mv-text">SAFE WORK</p>
               </div>
+
               <div className="space-y-4">
-                {flagshipHubs.map((hub, i) => (
-                  <div key={hub.name} className={`rounded-xl border border-mv-border p-5 ${i > 0 ? "bg-mv-bg" : "bg-white"}`}>
-                    <h3 className="text-[15px] font-bold text-mv-text">{hub.name}</h3>
-                    <p className="mt-1 text-[12px] text-mv-muted">{hub.address}</p>
-                    <Link href="#" className="mt-3 inline-flex items-center gap-1 text-[12px] font-semibold text-mv-primary hover:underline">
-                      Get Directions →
+                {hubs.map((hub, index) => (
+                  <article
+                    key={hub.name}
+                    className={`reveal-right d${index + 1} rounded-[16px] border border-[#d6e4f7] bg-white p-5 shadow-[0_10px_28px_rgba(13,71,161,0.06)]`}
+                  >
+                    <h3 className="text-[15px] font-bold text-[#1a2744]">{hub.name}</h3>
+                    <p className="mt-2 text-[12px] leading-relaxed text-[#5c7099]">{hub.address}</p>
+                    <Link href="#" className="mt-3 inline-block text-[12px] font-semibold text-[#1976d2] hover:underline">
+                      Get Directions ↗
                     </Link>
-                  </div>
+                  </article>
                 ))}
               </div>
             </div>

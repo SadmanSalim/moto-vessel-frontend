@@ -4,7 +4,8 @@ import { ChevronDown, FileText, Headphones, Menu, Search, X } from "lucide-react
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { VehiclePartsFinderDropdown } from "@/components/NavbarPartsDropdown";
 import { cn } from "@/lib/utils";
 
 const mainNavLinks = [
@@ -18,7 +19,41 @@ const mainNavLinks = [
 
 export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [finderOpen, setFinderOpen] = useState(false);
+  const [finderKey, setFinderKey] = useState(0);
   const pathname = usePathname();
+  const finderRef = useRef<HTMLDivElement>(null);
+  const hideTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const clearHideTimeout = () => {
+    if (hideTimeoutRef.current) {
+      clearTimeout(hideTimeoutRef.current);
+      hideTimeoutRef.current = null;
+    }
+  };
+
+  const openFinder = () => {
+    clearHideTimeout();
+    setFinderOpen(true);
+  };
+
+  const scheduleCloseFinder = () => {
+    clearHideTimeout();
+    hideTimeoutRef.current = setTimeout(() => {
+      setFinderOpen(false);
+      setFinderKey((k) => k + 1);
+    }, 150);
+  };
+
+  const toggleFinder = () => {
+    clearHideTimeout();
+    if (finderOpen) {
+      setFinderOpen(false);
+      setFinderKey((k) => k + 1);
+    } else {
+      setFinderOpen(true);
+    }
+  };
 
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? "hidden" : "";
@@ -27,6 +62,36 @@ export function Header() {
       document.body.style.overflow = "";
     };
   }, [mobileOpen]);
+
+  useEffect(() => {
+    if (!finderOpen) return;
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setFinderOpen(false);
+        setFinderKey((k) => k + 1);
+      }
+    };
+
+    const onPointerDown = (event: MouseEvent) => {
+      if (finderRef.current && !finderRef.current.contains(event.target as Node)) {
+        setFinderOpen(false);
+        setFinderKey((k) => k + 1);
+      }
+    };
+
+    document.addEventListener("keydown", onKeyDown);
+    document.addEventListener("mousedown", onPointerDown);
+
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+      document.removeEventListener("mousedown", onPointerDown);
+    };
+  }, [finderOpen]);
+
+  useEffect(() => {
+    return () => clearHideTimeout();
+  }, []);
 
   return (
     <header className="sticky top-0 z-50">
@@ -115,19 +180,54 @@ export function Header() {
       <div className="relative hidden bg-[#0e2347] lg:block">
         <div className="mv-container flex h-[50px] items-center">
           <nav className="flex flex-1 items-center justify-center gap-7 xl:gap-10" aria-label="Main">
-            {mainNavLinks.map((link) => (
-              <Link
-                key={link.label}
-                href={link.href}
-                className={cn(
-                  "flex items-center gap-1 text-[14px] font-medium text-white transition hover:text-[#7eb3ff] hover:underline hover:underline-offset-4",
-                  pathname === link.href && "font-semibold underline decoration-[#7eb3ff] underline-offset-4",
-                )}
-              >
-                {link.label}
-                {link.hasDropdown ? <ChevronDown size={14} className="text-white" /> : null}
-              </Link>
-            ))}
+            {mainNavLinks.map((link) =>
+              link.label === "Car Parts" ? (
+                <div
+                  key={link.label}
+                  ref={finderRef}
+                  className="relative"
+                  onMouseEnter={openFinder}
+                  onMouseLeave={scheduleCloseFinder}
+                >
+                  <button
+                    type="button"
+                    className={cn(
+                      "flex items-center gap-1 text-[14px] font-medium text-white transition hover:text-[#7eb3ff] hover:underline hover:underline-offset-4",
+                      finderOpen && "text-[#7eb3ff] underline decoration-[#7eb3ff] underline-offset-4",
+                      pathname === link.href && "font-semibold underline decoration-[#7eb3ff] underline-offset-4",
+                    )}
+                    aria-expanded={finderOpen}
+                    aria-haspopup="dialog"
+                    onClick={toggleFinder}
+                  >
+                    {link.label}
+                    <ChevronDown size={14} className={cn("text-white transition", finderOpen && "rotate-180")} />
+                  </button>
+
+                  {finderOpen ? (
+                    <div
+                      className="absolute left-1/2 top-full z-[60] -translate-x-1/2 pt-2"
+                      onMouseEnter={openFinder}
+                      onMouseLeave={scheduleCloseFinder}
+                    >
+                      <VehiclePartsFinderDropdown key={finderKey} />
+                    </div>
+                  ) : null}
+                </div>
+              ) : (
+                <Link
+                  key={link.label}
+                  href={link.href}
+                  className={cn(
+                    "flex items-center gap-1 text-[14px] font-medium text-white transition hover:text-[#7eb3ff] hover:underline hover:underline-offset-4",
+                    pathname === link.href && "font-semibold underline decoration-[#7eb3ff] underline-offset-4",
+                  )}
+                >
+                  {link.label}
+                  {link.hasDropdown ? <ChevronDown size={14} className="text-white" /> : null}
+                </Link>
+              ),
+            )}
           </nav>
 
           <Link

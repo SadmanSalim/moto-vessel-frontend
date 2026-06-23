@@ -313,5 +313,9 @@ export default function RoadAnimation() {
     };
   }, []);
 
-  return <canvas ref={canvasRef} id="road-canvas" className="road-animation-canvas" aria-hidden />;
+  return (
+    <div className="road-animation-wrap" aria-hidden>
+      <canvas ref={canvasRef} id="road-canvas" className="road-animation-canvas" />
+    </div>
+  );
 }

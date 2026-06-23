@@ -1,11 +1,12 @@
 "use client";
 
-import { AtSign, Eye, EyeOff, Lock } from "lucide-react";
+import { AtSign, Eye, EyeOff, Lock, User } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 
-export default function SignInPage() {
+export default function SignUpPage() {
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   return (
     <main className="min-h-screen bg-white">
@@ -22,20 +23,19 @@ export default function SignInPage() {
           <div className="relative pt-12">
             <p className="text-[12px] font-extrabold uppercase tracking-[0.18em] text-[#1565c0]">MOTOVESSEL</p>
             <h1 className="mt-8 max-w-[430px] text-[40px] font-extrabold leading-[1.08] text-[#1a2744]">
-              Redefining the <span className="text-[#1976d2]">Digital Cockpit</span> experience.
+              Join the MotoVessel <span className="text-[#1976d2]">Fleet</span>.
             </h1>
-            <p className="mt-5 max-w-[420px] text-[15px] leading-relaxed text-[#5c7099]">
-              Access your personalized fleet dashboard, real-time performance telemetry, and exclusive engineering
-              insights.
+            <p className="mt-5 max-w-[430px] text-[15px] leading-relaxed text-[#5c7099]">
+              Create your account and get access to exclusive parts, expert service, and real-time order tracking.
             </p>
             <div className="mt-12 flex gap-8">
               <div className="rounded-full border border-[#d6e4f7] bg-white/75 px-6 py-4 shadow-sm">
-                <p className="text-[28px] font-extrabold text-[#1a2744]">0.18s</p>
-                <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#7a8fb7]">Latency Response</p>
+                <p className="text-[28px] font-extrabold text-[#1a2744]">50,000+</p>
+                <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#7a8fb7]">Fleet Members</p>
               </div>
               <div className="rounded-full border border-[#d6e4f7] bg-white/75 px-6 py-4 shadow-sm">
-                <p className="text-[28px] font-extrabold text-[#1a2744]">256-bit</p>
-                <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#7a8fb7]">Encrypted Tunnel</p>
+                <p className="text-[28px] font-extrabold text-[#1a2744]">100%</p>
+                <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#7a8fb7]">Secure Signup</p>
               </div>
             </div>
           </div>
@@ -45,30 +45,35 @@ export default function SignInPage() {
         </section>
 
         <section className="flex items-center justify-center bg-white px-6 py-12 md:px-10">
-          <div className="w-full max-w-[420px] rounded-[24px] border border-[#e4edf9] bg-white p-8 shadow-[0_14px_48px_rgba(13,71,161,0.09)]">
-            <h2 className="text-[32px] font-bold text-[#1a2744]">Welcome Back</h2>
-            <p className="mt-2 text-[14px] text-[#5c7099]">Experience the pinnacle of automotive engineering.</p>
+          <div className="w-full max-w-[440px] rounded-[24px] border border-[#e4edf9] bg-white p-8 shadow-[0_14px_48px_rgba(13,71,161,0.09)]">
+            <h2 className="text-[32px] font-bold text-[#1a2744]">Create Account</h2>
+            <p className="mt-2 text-[14px] text-[#5c7099]">Start your automotive journey today.</p>
 
             <form className="mt-8 space-y-5" onSubmit={(e) => e.preventDefault()}>
+              <div>
+                <label htmlFor="fullName" className="mb-2 block text-[11px] font-bold uppercase tracking-[0.14em] text-[#1565c0]">
+                  Full Name
+                </label>
+                <div className="relative">
+                  <User size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#94a3b8]" />
+                  <input id="fullName" type="text" placeholder="Your Full Name" className="mv-input pl-11" />
+                </div>
+              </div>
+
               <div>
                 <label htmlFor="email" className="mb-2 block text-[11px] font-bold uppercase tracking-[0.14em] text-[#1565c0]">
                   Email Address
                 </label>
                 <div className="relative">
                   <AtSign size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#94a3b8]" />
-                  <input id="email" type="email" placeholder="mahinbhai@" className="mv-input pl-11" />
+                  <input id="email" type="email" placeholder="you@example.com" className="mv-input pl-11" />
                 </div>
               </div>
 
               <div>
-                <div className="mb-2 flex items-center justify-between">
-                  <label htmlFor="password" className="text-[11px] font-bold uppercase tracking-[0.14em] text-[#1565c0]">
-                    Password
-                  </label>
-                  <Link href="#" className="text-[11px] font-medium text-[#1565c0] hover:underline">
-                    Forgot Password?
-                  </Link>
-                </div>
+                <label htmlFor="password" className="mb-2 block text-[11px] font-bold uppercase tracking-[0.14em] text-[#1565c0]">
+                  Password
+                </label>
                 <div className="relative">
                   <Lock size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#94a3b8]" />
                   <input id="password" type={showPassword ? "text" : "password"} placeholder="••••••••" className="mv-input pl-11 pr-11" />
@@ -83,8 +88,39 @@ export default function SignInPage() {
                 </div>
               </div>
 
+              <div>
+                <label htmlFor="confirmPassword" className="mb-2 block text-[11px] font-bold uppercase tracking-[0.14em] text-[#1565c0]">
+                  Confirm Password
+                </label>
+                <div className="relative">
+                  <Lock size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#94a3b8]" />
+                  <input
+                    id="confirmPassword"
+                    type={showConfirmPassword ? "text" : "password"}
+                    placeholder="••••••••"
+                    className="mv-input pl-11 pr-11"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmPassword((v) => !v)}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-[#94a3b8]"
+                    aria-label={showConfirmPassword ? "Hide confirm password" : "Show confirm password"}
+                  >
+                    {showConfirmPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                  </button>
+                </div>
+              </div>
+
+              <label className="flex items-start gap-2 text-[12px] text-[#5c7099]">
+                <input type="checkbox" className="mt-0.5 h-4 w-4 accent-[#1565c0]" defaultChecked />
+                <span>
+                  I agree to the <Link href="#" className="font-semibold text-[#1565c0]">Terms of Service</Link> and{" "}
+                  <Link href="#" className="font-semibold text-[#1565c0]">Privacy Policy</Link>
+                </span>
+              </label>
+
               <button type="submit" className="w-full rounded-full bg-[#1565c0] py-3.5 text-[14px] font-bold text-white shadow-[0_12px_26px_rgba(21,101,192,0.24)] transition hover:bg-[#0d47a1]">
-                Sign In to Dashboard
+                Create My Account
               </button>
             </form>
 
@@ -104,9 +140,9 @@ export default function SignInPage() {
             </div>
 
             <p className="mt-7 text-center text-[13px] text-[#5c7099]">
-              Don&apos;t have an account?{" "}
-              <Link href="/sign-up" className="font-semibold text-[#1565c0] hover:underline">
-                Create Account
+              Already have an account?{" "}
+              <Link href="/sign-in" className="font-semibold text-[#1565c0] hover:underline">
+                Sign In
               </Link>
             </p>
 

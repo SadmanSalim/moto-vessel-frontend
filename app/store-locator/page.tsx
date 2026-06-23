@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
+import { useReveal } from "@/hooks/useReveal";
 import { cn } from "@/lib/utils";
 
 const stores = [
@@ -48,57 +49,59 @@ const precisionFeatures = [
 
 export default function StoreLocatorPage() {
   const [activeStore, setActiveStore] = useState(1);
+  useReveal();
 
   return (
     <>
       <Header />
-      <main>
-        {/* Hero */}
-        <section className="relative bg-mv-navy py-16 text-center md:py-24">
-          <div className="absolute inset-0 opacity-30" style={{ backgroundImage: "url('/images/placeholders/hero.svg')", backgroundSize: "cover", backgroundPosition: "right" }} aria-hidden />
-          <div className="absolute inset-0 bg-gradient-to-b from-mv-navy/90 to-mv-navy/70" aria-hidden />
-          <div className="mv-container relative">
-            <h1 className="text-[30px] font-extrabold text-white md:text-[38px]">
+      <main className="bg-[#f7f9fd]">
+        <section className="relative overflow-hidden bg-[#0d47a1] py-16 text-center md:py-24">
+          <div
+            className="absolute inset-0 opacity-35"
+            style={{ backgroundImage: "url('/images/placeholders/hero.svg')", backgroundSize: "cover", backgroundPosition: "center" }}
+            aria-hidden
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#0b356f] via-[#0d47a1] to-[#103b79]/90" aria-hidden />
+          <div className="mv-container relative reveal">
+            <h1 className="text-[30px] font-extrabold text-white md:text-[42px]">
               Find Our Stores in <span className="text-mv-primary">Bangladesh</span>
             </h1>
             <p className="mx-auto mt-4 max-w-xl text-[14px] leading-relaxed text-white/75">
               Experience the pinnacle of motorcycle engineering. Visit our exclusive showrooms and service centers across the country.
             </p>
             <div className="mt-7 flex flex-wrap justify-center gap-3">
-              <button type="button" className="inline-flex items-center gap-1.5 rounded-xl bg-mv-primary px-6 py-3 text-[13px] font-bold text-white">
+              <button type="button" className="inline-flex items-center gap-1.5 rounded-[10px] bg-[#1565c0] px-6 py-3 text-[13px] font-bold text-white shadow-[0_10px_28px_rgba(21,101,192,0.34)]">
                 Get Directions
                 <ChevronDown size={16} />
               </button>
-              <Link href="/contact" className="rounded-xl border-2 border-white/60 px-6 py-3 text-[13px] font-bold text-white transition hover:bg-white/10">
+              <Link href="/contact" className="rounded-[10px] border border-white/40 px-6 py-3 text-[13px] font-bold text-white transition hover:bg-white/10">
                 Contact Us
               </Link>
             </div>
           </div>
         </section>
 
-        {/* Search + map */}
         <section className="bg-mv-bg py-10 md:py-12">
           <div className="mv-container">
-            <div className="mx-auto mb-8 flex max-w-2xl overflow-hidden rounded-xl border border-mv-border bg-white shadow-sm">
+            <div className="reveal mx-auto mb-8 flex max-w-2xl overflow-hidden rounded-full border border-[#d6e4f7] bg-white shadow-[0_12px_30px_rgba(13,71,161,0.08)]">
               <input
                 type="text"
                 placeholder="Enter city, district or zip code"
                 className="flex-1 px-5 py-3.5 text-[13px] outline-none"
               />
-              <button type="button" className="flex items-center justify-center bg-mv-primary px-5 text-white">
+              <button type="button" className="m-1 flex h-10 w-10 items-center justify-center rounded-full bg-[#1565c0] text-white">
                 <Filter size={18} />
               </button>
             </div>
 
             <div className="grid gap-6 lg:grid-cols-2">
-              {/* Store list */}
               <div className="space-y-4">
-                {stores.map((store) => (
+                {stores.map((store, index) => (
                   <article
                     key={store.id}
                     onClick={() => setActiveStore(store.id)}
                     className={cn(
-                      "cursor-pointer rounded-xl border bg-white p-5 transition hover:shadow-md",
+                      `reveal-left d${index + 1} cursor-pointer rounded-[16px] border bg-white p-5 transition hover:shadow-md`,
                       activeStore === store.id ? "border-mv-primary shadow-[0_0_20px_rgba(26,86,219,0.1)]" : "border-mv-border",
                     )}
                   >
@@ -120,7 +123,8 @@ export default function StoreLocatorPage() {
                       ))}
                     </div>
                     <div className="mt-3 flex items-center justify-between">
-                      <span className={cn("text-[12px] font-semibold", store.open ? "text-green-600" : "text-mv-red")}>
+                      <span className={cn("inline-flex items-center gap-1.5 text-[12px] font-semibold", store.open ? "text-green-600" : "text-mv-red")}>
+                        <span className={cn("h-2 w-2 rounded-full", store.open ? "bg-green-500" : "bg-red-500")} />
                         {store.status}
                       </span>
                       <button type="button" className="text-[12px] font-semibold text-mv-primary hover:underline">
@@ -131,10 +135,9 @@ export default function StoreLocatorPage() {
                 ))}
               </div>
 
-              {/* Map */}
-              <div className="relative overflow-hidden rounded-xl border border-mv-border bg-white p-4">
+              <div className="reveal-right relative overflow-hidden rounded-[18px] border border-mv-border bg-white p-4 shadow-[0_10px_30px_rgba(13,71,161,0.08)]">
                 <svg viewBox="0 0 400 500" className="h-full min-h-[400px] w-full" aria-label="Bangladesh map">
-                  <path d="M200,50 C280,80 320,150 310,220 C300,290 260,350 220,400 C180,450 140,460 120,420 C100,380 110,300 130,240 C150,180 160,100 200,50 Z" fill="#22c55e" opacity="0.6" />
+                  <path d="M200,50 C280,80 320,150 310,220 C300,290 260,350 220,400 C180,450 140,460 120,420 C100,380 110,300 130,240 C150,180 160,100 200,50 Z" fill="#0f766e" opacity="0.92" />
                   <circle cx="200" cy="160" r="10" fill="#1A56DB" stroke="white" strokeWidth="2" />
                   <circle cx="220" cy="280" r="10" fill="#DC2626" stroke="white" strokeWidth="2" />
                   <circle cx="240" cy="220" r="10" fill="#f59e0b" stroke="white" strokeWidth="2" />
@@ -145,23 +148,22 @@ export default function StoreLocatorPage() {
                 </div>
                 <div className="absolute bottom-4 right-4 flex items-center gap-1.5 rounded-full bg-white px-3 py-1.5 text-[10px] font-semibold shadow">
                   <MapPin size={12} className="text-mv-primary" />
-                  CLOSEST TO YOU: Dhaka Central Hub (2.4km)
+                  Closest to You: Dhaka Central Hub (2.4km)
                 </div>
               </div>
             </div>
           </div>
         </section>
 
-        {/* Engineered for Precision */}
         <section className="bg-white py-12 md:py-16">
           <div className="mv-container text-center">
-            <h2 className="text-[24px] font-bold text-mv-text">Engineered for Precision</h2>
+            <h2 className="reveal text-[24px] font-bold text-mv-text">Engineered for Precision</h2>
             <p className="mx-auto mt-2 max-w-lg text-[13px] text-mv-muted">
               Why MOTOVESSEL remains the top choice for enthusiasts.
             </p>
             <div className="mt-10 grid gap-5 md:grid-cols-3">
-              {precisionFeatures.map((feat) => (
-                <article key={feat.title} className="rounded-xl border border-mv-border bg-mv-bg p-6 text-left">
+              {precisionFeatures.map((feat, index) => (
+                <article key={feat.title} className={`reveal d${index + 1} rounded-xl border border-mv-border bg-mv-bg p-6 text-left`}>
                   <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-mv-blue-light text-mv-primary">
                     <feat.icon size={22} />
                   </div>
@@ -173,18 +175,17 @@ export default function StoreLocatorPage() {
           </div>
         </section>
 
-        {/* CTA */}
         <section className="mv-container pb-12 md:pb-16">
-          <div className="rounded-xl bg-mv-primary p-10 text-center text-white">
+          <div className="reveal rounded-[20px] bg-mv-primary p-10 text-center text-white shadow-[0_18px_34px_rgba(21,101,192,0.22)]">
             <h2 className="text-[24px] font-bold">Need More Information?</h2>
             <p className="mx-auto mt-3 max-w-md text-[13px] text-white/80">
               Our specialized consultants are ready to help you find the perfect parts and services for your vehicle.
             </p>
             <div className="mt-6 flex flex-wrap justify-center gap-3">
-              <Link href="/contact" className="rounded-xl bg-white px-6 py-3 text-[13px] font-bold text-mv-primary">
+              <Link href="/contact" className="rounded-xl border border-white bg-white px-6 py-3 text-[13px] font-bold text-mv-primary">
                 Talk to an Expert
               </Link>
-              <button type="button" className="rounded-xl border-2 border-white/60 px-6 py-3 text-[13px] font-bold text-white hover:bg-white/10">
+              <button type="button" className="rounded-xl border border-white/70 px-6 py-3 text-[13px] font-bold text-white hover:bg-white/10">
                 Download Catalog
               </button>
             </div>

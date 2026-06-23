@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
+import { useReveal } from "@/hooks/useReveal";
 import { cn } from "@/lib/utils";
 
 const shippingOptions = [
@@ -17,8 +18,8 @@ const shippingOptions = [
 const paymentTabs = ["CARD", "PAYPAL", "COD", "TRANSFER"];
 
 const orderItems = [
-  { name: "Forged Titanium Pistons", detail: "Model H-110 / Racing Grade", price: 599, image: "/images/placeholders/product.svg" },
-  { name: "Nitro-Coil Suspension", detail: "Blue-Mono / Competition", price: 1250, image: "/images/placeholders/product.svg" },
+  { name: "Forged Titanium Pistons", detail: "Model X-700 / Racing Grade", price: 599, image: "/images/placeholders/product.svg" },
+  { name: "Nitro-Coil Suspension", detail: "Rear-Mono / Competition", price: 1250, image: "/images/placeholders/product.svg" },
 ];
 
 export default function CheckoutPage() {
@@ -26,6 +27,7 @@ export default function CheckoutPage() {
   const [paymentTab, setPaymentTab] = useState("CARD");
   const [emailUpdates, setEmailUpdates] = useState(true);
   const [sameAddress, setSameAddress] = useState(true);
+  useReveal();
 
   const subtotal = 1849;
   const shippingCost = shipping === "express" ? 24 : shipping === "overnight" ? 45 : 0;
@@ -51,10 +53,8 @@ export default function CheckoutPage() {
 
         <div className="mv-container py-8 md:py-12">
           <div className="grid gap-8 lg:grid-cols-[1fr_minmax(0,400px)]">
-            {/* Left column */}
             <div className="space-y-6">
-              {/* Contact */}
-              <section className="mv-card p-6">
+              <section className="reveal mv-card p-6">
                 <div className="mb-4 flex items-center justify-between">
                   <h2 className="text-[16px] font-bold text-mv-text">Contact Information</h2>
                   <Link href="/sign-in" className="text-[12px] font-semibold text-mv-primary hover:underline">Log In</Link>
@@ -68,12 +68,11 @@ export default function CheckoutPage() {
                   >
                     <span className={cn("absolute top-0.5 h-4 w-4 rounded-full bg-white shadow transition", emailUpdates ? "left-[18px]" : "left-0.5")} />
                   </button>
-                  Keep me with precision updates and exclusive offers.
+                  Email me with precision updates and exclusive offers
                 </label>
               </section>
 
-              {/* Delivery */}
-              <section className="mv-card p-6">
+              <section className="reveal d1 mv-card p-6">
                 <h2 className="mb-4 text-[16px] font-bold text-mv-text">Delivery Details</h2>
                 <div className="grid gap-3 sm:grid-cols-2">
                   <input type="text" placeholder="First Name" className="rounded-xl border border-mv-border px-4 py-3 text-[13px] outline-none focus:border-mv-primary" />
@@ -86,8 +85,7 @@ export default function CheckoutPage() {
                 </div>
               </section>
 
-              {/* Shipping */}
-              <section className="mv-card p-6">
+              <section className="reveal d2 mv-card p-6">
                 <h2 className="mb-4 text-[16px] font-bold text-mv-text">Shipping Velocity</h2>
                 <div className="space-y-3">
                   {shippingOptions.map((opt) => (
@@ -102,16 +100,19 @@ export default function CheckoutPage() {
                     >
                       <opt.icon size={20} className={shipping === opt.id ? "text-mv-primary" : "text-mv-muted"} />
                       <div className="flex-1">
-                        <p className="text-[13px] font-semibold text-mv-text">{opt.label} ({opt.price})</p>
+                        <p className="text-[13px] font-semibold text-mv-text">
+                          {opt.icon === Zap ? "⚡ " : opt.icon === Truck ? "🚚 " : "✈ "}
+                          {opt.label}
+                        </p>
                         <p className="text-[11px] text-mv-muted">{opt.time}</p>
                       </div>
+                      <p className="text-[12px] font-semibold text-[#1a2744]">{opt.price}</p>
                     </button>
                   ))}
                 </div>
               </section>
 
-              {/* Payment */}
-              <section className="mv-card p-6">
+              <section className="reveal d3 mv-card p-6">
                 <h2 className="mb-4 text-[16px] font-bold text-mv-text">Secure Payment</h2>
                 <div className="mb-5 flex border-b border-mv-border">
                   {paymentTabs.map((tab) => (
@@ -119,10 +120,8 @@ export default function CheckoutPage() {
                       key={tab}
                       type="button"
                       onClick={() => setPaymentTab(tab)}
-                      className={cn(
-                        "flex items-center gap-1.5 border-b-2 px-4 py-2.5 text-[11px] font-bold tracking-wider transition",
-                        paymentTab === tab ? "border-mv-primary text-mv-primary" : "border-transparent text-mv-muted",
-                      )}
+                      className={cn("flex items-center gap-1.5 rounded-lg border px-4 py-2.5 text-[11px] font-bold tracking-wider transition",
+                        paymentTab === tab ? "border-mv-primary text-mv-primary" : "border-mv-border text-mv-muted")}
                     >
                       {tab === "CARD" ? <CreditCard size={14} /> : null}
                       {tab}
@@ -164,9 +163,8 @@ export default function CheckoutPage() {
               </section>
             </div>
 
-            {/* Right column - Order summary */}
             <div>
-              <div className="sticky top-24 rounded-xl border border-mv-primary/20 bg-white p-6">
+              <div className="reveal-right sticky top-24 rounded-xl border border-mv-primary/20 bg-white p-6">
                 <h2 className="text-[16px] font-bold text-mv-text">Order Architecture</h2>
                 <div className="mt-4 space-y-4">
                   {orderItems.map((item) => (
@@ -203,13 +201,16 @@ export default function CheckoutPage() {
                   </div>
                   <div className="flex justify-between border-t border-mv-border pt-2">
                     <span className="font-bold text-mv-text">Total</span>
-                    <span className="text-[22px] font-bold text-mv-primary">${total.toFixed(2)}</span>
+                    <span className="text-right">
+                      <span className="mr-1 text-[10px] font-semibold uppercase tracking-wider text-mv-muted">USD</span>
+                      <span className="text-[22px] font-bold text-mv-primary">${total.toFixed(2)}</span>
+                    </span>
                   </div>
                 </div>
 
                 <button type="button" className="mt-5 flex w-full items-center justify-center gap-2 rounded-xl bg-mv-navy py-3.5 text-[14px] font-bold text-white">
                   <Lock size={16} />
-                  Complete Ignition 🔒
+                  Complete Ignition
                 </button>
                 <p className="mt-3 text-center text-[9px] font-semibold uppercase tracking-widest text-mv-muted">
                   Encrypted &amp; Powered By MotoVessel Core

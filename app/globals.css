@@ -247,6 +247,65 @@ body {
   box-shadow: 0 6px 20px rgba(21, 101, 192, 0.55);
 }
 
+.parts-finder-dropdown-enter {
+  animation: parts-finder-dropdown-in 180ms ease-out both;
+}
+
+.parts-finder-step-enter {
+  animation: parts-finder-step-in 180ms ease-out both;
+}
+
+.parts-finder-step-pulse {
+  animation: parts-finder-pulse 1.8s ease-out infinite;
+}
+
+@keyframes parts-finder-dropdown-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes parts-finder-step-in {
+  from {
+    opacity: 0;
+    transform: translateX(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes parts-finder-pulse {
+  0% {
+    transform: scale(0.92);
+    opacity: 0.7;
+  }
+  70% {
+    transform: scale(1.15);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1.15);
+    opacity: 0;
+  }
+}
+
+.road-animation-wrap {
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .road-animation-wrap {
+    display: none !important;
+  }
+}
+
 .road-animation-canvas {
   position: fixed;
   inset: 0;
