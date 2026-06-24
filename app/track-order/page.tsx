@@ -2,8 +2,6 @@
 
 import { ArrowLeft, MapPin, Search } from "lucide-react";
 import Link from "next/link";
-import { Footer } from "@/components/layout/Footer";
-import { Header } from "@/components/layout/Header";
 import { useReveal } from "@/hooks/useReveal";
 
 const demoOrders = [
@@ -15,9 +13,7 @@ export default function TrackOrderPage() {
   useReveal();
 
   return (
-    <>
-      <Header />
-      <main className="bg-mv-bg pb-4 md:pb-8">
+    <div className="bg-mv-bg pb-4 md:pb-8">
         <div className="border-b border-mv-border bg-white py-5 md:py-6">
           <div className="mv-container flex flex-wrap items-center justify-between gap-4">
             <Link
@@ -97,8 +93,6 @@ export default function TrackOrderPage() {
             </div>
           </div>
         </div>
-      </main>
-      <Footer />
-    </>
+    </div>
   );
 }

@@ -2,8 +2,6 @@ import { Check } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { serviceListingItems } from "@/data/services";
-import { Footer } from "@/components/layout/Footer";
-import { Header } from "@/components/layout/Header";
 
 const heroFeatures = [
   "24/7 Roadside Assistance",
@@ -13,9 +11,7 @@ const heroFeatures = [
 
 export default function ServicesListingPage() {
   return (
-    <>
-      <Header />
-      <main>
+    <div>
         {/* Hero */}
         <section className="relative overflow-hidden bg-mv-navy py-16 md:py-24">
           <div
@@ -82,8 +78,6 @@ export default function ServicesListingPage() {
             </div>
           </div>
         </section>
-      </main>
-      <Footer />
-    </>
+    </div>
   );
 }

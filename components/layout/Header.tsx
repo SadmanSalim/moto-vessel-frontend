@@ -96,12 +96,7 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50">
       {/* Top utility bar — dark navy */}
-      <div
-        className="border-b border-white/10"
-        style={{
-          background: "linear-gradient(90deg, #0a1628 0%, #0d2347 40%, #1a3a6b 70%, #0f2d55 100%)",
-        }}
-      >
+      <div className="border-b border-white/10 bg-gradient-to-r from-[#0D47A1] via-[#1565C0] to-[#2979FF]">
         <div className="mv-container flex h-[58px] items-center justify-between gap-3 md:h-[60px] md:gap-5">
           <Link href="/" className="shrink-0">
             <Image
@@ -115,30 +110,30 @@ export function Header() {
           </Link>
 
           {/* Unified search pill — desktop */}
-          <div className="hidden max-w-[520px] flex-1 items-stretch overflow-hidden rounded-[20px] border border-[#1e3a6b] bg-[#0d1f3c] lg:flex">
+          <div className="hidden max-w-[520px] flex-1 items-stretch overflow-hidden rounded-full border border-white/30 bg-white/10 transition-all focus-within:border-white/70 focus-within:bg-white/20 lg:flex">
             <div className="flex min-w-0 flex-1 items-center gap-2 px-4 py-2">
-              <Search size={15} className="shrink-0 text-[#8ba3c7]" />
+              <Search size={15} className="shrink-0 text-white" />
               <input
                 type="search"
                 placeholder="Search"
-                className="w-full bg-transparent text-[13px] text-[#8ba3c7] outline-none placeholder:text-[#8ba3c7]"
+                className="w-full bg-transparent text-[13px] text-white/85 outline-none placeholder:text-white/70 focus:outline-none"
                 aria-label="Search"
               />
             </div>
-            <div className="w-px self-stretch bg-[#1e3a6b]" aria-hidden />
+            <div className="w-px self-stretch bg-white/20" aria-hidden />
             <button
               type="button"
-              className="flex shrink-0 items-center gap-1.5 whitespace-nowrap px-4 py-2 text-[13px] font-medium text-[#8ba3c7]"
+              className="flex shrink-0 items-center gap-1.5 whitespace-nowrap px-4 py-2 text-[13px] font-medium text-white/85"
             >
               Search For Vehicle
-              <ChevronDown size={14} className="text-[#8ba3c7]" />
+              <ChevronDown size={14} className="text-white" />
             </button>
-            <div className="w-px self-stretch bg-[#1e3a6b]" aria-hidden />
+            <div className="w-px self-stretch bg-white/20" aria-hidden />
             <Link
               href="/products/brake-shoes"
-              className="flex shrink-0 items-center gap-2 px-5 py-2 text-[13px] font-medium text-[#8ba3c7] transition hover:text-white"
+              className="flex shrink-0 items-center gap-2 px-5 py-2 text-[13px] font-medium text-white/85 transition hover:text-white"
             >
-              <Search size={15} />
+              <Search size={15} className="text-white" />
               Find Parts
             </Link>
           </div>
@@ -153,13 +148,13 @@ export function Header() {
             </Link>
             <Link
               href="/sign-in"
-              className="hidden rounded-full bg-transparent px-3.5 py-1.5 text-[12px] font-medium text-[#a0b8d8] transition hover:text-white sm:inline-block"
+              className="hidden rounded-full border border-white/70 px-5 py-1.5 text-[12px] font-medium text-white transition-colors hover:bg-white/15 sm:inline-block"
             >
               Sign in
             </Link>
             <Link
               href="/sign-in"
-              className="rounded-md bg-[#1e4fa3] px-3.5 py-1.5 text-[12px] font-semibold text-white transition hover:bg-[#1a4590]"
+              className="rounded-full bg-white px-5 py-1.5 text-[12px] font-semibold text-[#0D47A1] transition-colors hover:bg-[#E3EEFF]"
             >
               Sign Up
             </Link>
@@ -177,7 +172,7 @@ export function Header() {
       </div>
 
       {/* Main navigation — royal blue */}
-      <div className="relative hidden bg-[#0e2347] lg:block">
+      <div className="relative hidden bg-[#1565C0] lg:block">
         <div className="mv-container flex h-[50px] items-center">
           <nav className="flex flex-1 items-center justify-center gap-7 xl:gap-10" aria-label="Main">
             {mainNavLinks.map((link) =>
@@ -232,9 +227,9 @@ export function Header() {
 
           <Link
             href="/track-order"
-            className="track-order-btn absolute right-4 flex items-center gap-2 rounded-[20px] bg-[#1565c0] px-4 py-2 text-[13px] font-semibold text-white transition xl:right-6"
+            className="track-order-btn absolute right-4 flex items-center gap-2 rounded-lg bg-white px-4 py-1.5 text-[13px] font-semibold text-[#0D47A1] shadow-sm transition-colors hover:bg-[#E3EEFF] xl:right-6"
           >
-            <FileText size={15} />
+            <FileText size={15} className="text-[#0D47A1]" />
             Track Order
           </Link>
         </div>

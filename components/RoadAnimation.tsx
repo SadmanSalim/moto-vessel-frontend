@@ -1,11 +1,14 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
 
 export default function RoadAnimation() {
+  const pathname = usePathname();
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
+    if (pathname !== "/") return;
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
@@ -311,7 +314,9 @@ export default function RoadAnimation() {
       window.removeEventListener("scroll", onScroll);
       cancelAnimationFrame(animFrameId);
     };
-  }, []);
+  }, [pathname]);
+
+  if (pathname !== "/") return null;
 
   return (
     <div className="road-animation-wrap" aria-hidden>

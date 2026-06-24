@@ -15,8 +15,6 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { use, useState } from "react";
-import { Footer } from "@/components/layout/Footer";
-import { Header } from "@/components/layout/Header";
 import { getProductBySlug, relatedProducts } from "@/data/products";
 import { cn } from "@/lib/utils";
 
@@ -47,9 +45,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ slug: 
   const images = [product?.image, product?.image, product?.image].filter(Boolean) as string[];
 
   return (
-    <>
-      <Header />
-      <main className="bg-mv-bg">
+    <div className="bg-mv-bg">
         <div className="mv-container py-6">
           {/* Breadcrumb */}
           <nav className="mb-6 text-[12px] text-mv-muted">
@@ -255,8 +251,6 @@ export default function ProductDetailPage({ params }: { params: Promise<{ slug: 
             </div>
           </div>
         </div>
-      </main>
-      <Footer />
-    </>
+    </div>
   );
 }

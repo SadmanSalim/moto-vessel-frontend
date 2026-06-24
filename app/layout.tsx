@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Inter, Quicksand } from "next/font/google";
 import RoadAnimation from "@/components/RoadAnimation";
+import { Footer } from "@/components/layout/Footer";
+import { Header } from "@/components/layout/Header";
 import "./globals.css";
 
 const inter = Inter({
@@ -27,10 +29,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${quicksand.variable} h-full antialiased`}>
-      <body className="relative z-[2] flex min-h-full flex-col">
+    <html lang="en" className={`${inter.variable} ${quicksand.variable} h-full antialiased`} suppressHydrationWarning>
+      <body className="relative z-[2] flex min-h-screen flex-col" suppressHydrationWarning>
         <RoadAnimation />
-        {children}
+        <Header />
+        <main className="flex-1">{children}</main>
+        <Footer />
       </body>
     </html>
   );

@@ -11,8 +11,6 @@ import { TestimonialSection } from "@/components/home/TestimonialSection";
 import { ValuePromiseSection } from "@/components/home/ValuePromiseSection";
 import { VehicleFilterBar } from "@/components/home/VehicleFilterBar";
 import { VideoGallery } from "@/components/home/VideoGallery";
-import { Footer } from "@/components/layout/Footer";
-import { Header } from "@/components/layout/Header";
 import { useReveal } from "@/hooks/useReveal";
 
 export default function Home() {
@@ -20,20 +18,16 @@ export default function Home() {
 
   return (
     <>
-      <Header />
-      <main>
-        <HeroSection />
-        <CategorySlider />
-        <VehicleFilterBar />
-        <FeaturedPartsSection />
-        <ValuePromiseSection />
-        <MobileAppSection />
-        <EmergencyBanner />
-        <VideoGallery />
-        <TestimonialSection />
-        <PremiumBrands />
-      </main>
-      <Footer />
+      <HeroSection />
+      <CategorySlider />
+      <VehicleFilterBar />
+      <FeaturedPartsSection />
+      <ValuePromiseSection />
+      <MobileAppSection />
+      <EmergencyBanner />
+      <VideoGallery />
+      <TestimonialSection />
+      <PremiumBrands />
       <ScrollToTop />
     </>
   );

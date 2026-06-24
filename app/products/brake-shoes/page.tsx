@@ -4,8 +4,6 @@ import { ChevronDown, Plus, Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { Footer } from "@/components/layout/Footer";
-import { Header } from "@/components/layout/Header";
 import { brakeShoeProducts } from "@/data/products";
 import { cn } from "@/lib/utils";
 
@@ -26,9 +24,7 @@ export default function ProductListingPage() {
   const [page, setPage] = useState(1);
 
   return (
-    <>
-      <Header />
-      <main>
+    <div>
         {/* Hero */}
         <section className="relative bg-mv-navy py-16 md:py-20">
           <div className="absolute inset-0 opacity-40" style={{ backgroundImage: "url('/images/placeholders/hero.svg')", backgroundSize: "cover" }} aria-hidden />
@@ -221,8 +217,6 @@ export default function ProductListingPage() {
             </div>
           </div>
         </section>
-      </main>
-      <Footer />
-    </>
+    </div>
   );
 }

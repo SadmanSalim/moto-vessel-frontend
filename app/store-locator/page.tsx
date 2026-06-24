@@ -1,10 +1,9 @@
 "use client";
 
-import { ChevronDown, Filter, MapPin, Shield, User, Zap } from "lucide-react";
+import { ChevronDown, Filter, Shield, User, Zap } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
-import { Footer } from "@/components/layout/Footer";
-import { Header } from "@/components/layout/Header";
+import { BangladeshMap3D } from "@/components/BangladeshMap3D";
 import { useReveal } from "@/hooks/useReveal";
 import { cn } from "@/lib/utils";
 
@@ -41,6 +40,12 @@ const stores = [
   },
 ];
 
+const mapStores = [
+  { id: 1, name: "Dhaka Central Hub", x: 218, y: 268, open: true },
+  { id: 2, name: "Chattogram Coastal Port", x: 312, y: 358, open: true },
+  { id: 3, name: "Sylhet Expressway", x: 278, y: 128, open: false },
+];
+
 const precisionFeatures = [
   { icon: Shield, title: "Authentic Parts", desc: "Every component is sourced directly from OEM manufacturers with full certification." },
   { icon: User, title: "Expert Service", desc: "Our certified technicians deliver precision service backed by years of experience." },
@@ -52,9 +57,7 @@ export default function StoreLocatorPage() {
   useReveal();
 
   return (
-    <>
-      <Header />
-      <main className="bg-[#f7f9fd]">
+    <div className="bg-[#f7f9fd]">
         <section className="relative overflow-hidden bg-[#0d47a1] py-16 text-center md:py-24">
           <div
             className="absolute inset-0 opacity-35"
@@ -136,20 +139,11 @@ export default function StoreLocatorPage() {
               </div>
 
               <div className="reveal-right relative overflow-hidden rounded-[18px] border border-mv-border bg-white p-4 shadow-[0_10px_30px_rgba(13,71,161,0.08)]">
-                <svg viewBox="0 0 400 500" className="h-full min-h-[400px] w-full" aria-label="Bangladesh map">
-                  <path d="M200,50 C280,80 320,150 310,220 C300,290 260,350 220,400 C180,450 140,460 120,420 C100,380 110,300 130,240 C150,180 160,100 200,50 Z" fill="#0f766e" opacity="0.92" />
-                  <circle cx="200" cy="160" r="10" fill="#1A56DB" stroke="white" strokeWidth="2" />
-                  <circle cx="220" cy="280" r="10" fill="#DC2626" stroke="white" strokeWidth="2" />
-                  <circle cx="240" cy="220" r="10" fill="#f59e0b" stroke="white" strokeWidth="2" />
-                </svg>
-                <div className="absolute bottom-4 left-4 flex gap-1">
-                  <button type="button" className="flex h-7 w-7 items-center justify-center rounded bg-white text-[14px] font-bold shadow">+</button>
-                  <button type="button" className="flex h-7 w-7 items-center justify-center rounded bg-white text-[14px] font-bold shadow">−</button>
-                </div>
-                <div className="absolute bottom-4 right-4 flex items-center gap-1.5 rounded-full bg-white px-3 py-1.5 text-[10px] font-semibold shadow">
-                  <MapPin size={12} className="text-mv-primary" />
-                  Closest to You: Dhaka Central Hub (2.4km)
-                </div>
+                <BangladeshMap3D
+                  stores={mapStores}
+                  activeStoreId={activeStore}
+                  onStoreSelect={setActiveStore}
+                />
               </div>
             </div>
           </div>
@@ -191,8 +185,6 @@ export default function StoreLocatorPage() {
             </div>
           </div>
         </section>
-      </main>
-      <Footer />
-    </>
+    </div>
   );
 }

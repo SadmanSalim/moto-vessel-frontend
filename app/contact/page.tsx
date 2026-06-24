@@ -2,8 +2,6 @@
 
 import { CloudUpload, Globe, Mail, MapPin, MessageCircle, Phone, Shield } from "lucide-react";
 import Link from "next/link";
-import { Footer } from "@/components/layout/Footer";
-import { Header } from "@/components/layout/Header";
 import { useReveal } from "@/hooks/useReveal";
 
 const contactMethods = [
@@ -56,9 +54,7 @@ export default function ContactPage() {
   useReveal();
 
   return (
-    <>
-      <Header />
-      <main className="bg-[#f7f9fd]">
+    <div className="bg-[#f7f9fd]">
         <section className="relative overflow-hidden py-14 text-center text-white md:py-20">
           <div
             className="absolute inset-0"
@@ -232,8 +228,6 @@ export default function ContactPage() {
             </div>
           </div>
         </section>
-      </main>
-      <Footer />
-    </>
+    </div>
   );
 }

@@ -15,8 +15,6 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
-import { Footer } from "@/components/layout/Footer";
-import { Header } from "@/components/layout/Header";
 import { useReveal } from "@/hooks/useReveal";
 import { cn } from "@/lib/utils";
 
@@ -40,9 +38,7 @@ export default function SettingsPage() {
   useReveal();
 
   return (
-    <>
-      <Header />
-      <main className="bg-[#f7f9fd] py-6 md:py-10">
+    <div className="bg-[#f7f9fd] py-6 md:py-10">
         <div className="mv-container grid gap-6 lg:grid-cols-[160px_1fr_270px]">
           <aside className="reveal-left flex flex-col rounded-[18px] bg-white p-4 shadow-[0_10px_30px_rgba(13,71,161,0.06)]">
             <div className="mb-4 flex flex-col items-start gap-3">
@@ -265,8 +261,6 @@ export default function SettingsPage() {
             </div>
           </aside>
         </div>
-      </main>
-      <Footer />
-    </>
+    </div>
   );
 }

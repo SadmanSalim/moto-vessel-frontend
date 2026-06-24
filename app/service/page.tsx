@@ -2,8 +2,6 @@
 
 import { CheckCircle2 } from "lucide-react";
 import Image from "next/image";
-import { Footer } from "@/components/layout/Footer";
-import { Header } from "@/components/layout/Header";
 import { useReveal } from "@/hooks/useReveal";
 
 const serviceCards = [
@@ -27,9 +25,7 @@ export default function ServicePage() {
   useReveal();
 
   return (
-    <>
-      <Header />
-      <main className="bg-white">
+    <div className="bg-white">
         <section className="relative overflow-hidden bg-[#06142b]">
           <div
             className="absolute inset-0"
@@ -103,8 +99,6 @@ export default function ServicePage() {
             </div>
           </div>
         </section>
-      </main>
-      <Footer />
-    </>
+    </div>
   );
 }

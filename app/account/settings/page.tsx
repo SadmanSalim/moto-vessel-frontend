@@ -16,8 +16,6 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { Footer } from "@/components/layout/Footer";
-import { Header } from "@/components/layout/Header";
 import { cn } from "@/lib/utils";
 
 const sidebarLinks = [
@@ -39,9 +37,7 @@ export default function AccountSettingsPage() {
   const [notifications, setNotifications] = useState({ alerts: true, marketing: true, tracking: false });
 
   return (
-    <>
-      <Header />
-      <main className="bg-mv-bg py-6 md:py-10">
+    <div className="bg-mv-bg py-6 md:py-10">
         <div className="mv-container grid gap-6 lg:grid-cols-[minmax(0,240px)_1fr_minmax(0,280px)] lg:gap-8">
           {/* Left sidebar */}
           <aside className="space-y-4 lg:sticky lg:top-24 lg:self-start">
@@ -276,8 +272,6 @@ export default function AccountSettingsPage() {
             </div>
           </aside>
         </div>
-      </main>
-      <Footer />
-    </>
+    </div>
   );
 }

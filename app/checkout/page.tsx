@@ -4,8 +4,6 @@ import { CreditCard, Globe, Lock, Plane, Shield, Truck, Zap } from "lucide-react
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { Footer } from "@/components/layout/Footer";
-import { Header } from "@/components/layout/Header";
 import { useReveal } from "@/hooks/useReveal";
 import { cn } from "@/lib/utils";
 
@@ -35,9 +33,7 @@ export default function CheckoutPage() {
   const total = subtotal + shippingCost + tax;
 
   return (
-    <>
-      <Header />
-      <main className="bg-mv-bg">
+    <div className="bg-mv-bg">
         {/* Breadcrumb */}
         <div className="border-b border-mv-border bg-white py-3">
           <div className="mv-container text-[12px] text-mv-muted">
@@ -246,8 +242,6 @@ export default function CheckoutPage() {
             <span>© 2024 MOTOVESSEL. PRECISION ENGINEERED.</span>
           </div>
         </div>
-      </main>
-      <Footer />
-    </>
+    </div>
   );
 }
