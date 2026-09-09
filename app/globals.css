@@ -15,6 +15,10 @@
   --mv-accent-sky: #7eb3ff;
   --background: #ffffff;
   --foreground: var(--mv-text);
+  /* Overridden at runtime by ThemeProvider once it loads the admin's
+     Theme & Branding font choice (Filament > Settings > Theme & Branding). */
+  --font-body: var(--font-inter);
+  --font-heading: var(--font-quicksand);
 }
 
 @theme inline {
@@ -32,7 +36,8 @@
   --color-mv-border: var(--mv-border);
   --color-mv-blue-light: var(--mv-blue-light);
   --color-mv-accent-sky: var(--mv-accent-sky);
-  --font-sans: var(--font-inter);
+  --font-sans: var(--font-body);
+  --font-heading: var(--font-heading);
 }
 
 html {
@@ -42,24 +47,16 @@ html {
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
+  font-family: var(--font-body), system-ui, -apple-system, sans-serif;
   overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading), var(--font-body), system-ui, -apple-system, sans-serif;
 }
 
 * {
   scroll-behavior: smooth;
-}
-
-.mv-container {
-  @apply mx-auto w-full max-w-[1280px] px-4 md:px-6 lg:px-8;
-}
-
-.section-title {
-  @apply text-[22px] font-bold leading-tight text-mv-text md:text-[26px];
-}
-
-.section-title-blue {
-  @apply text-[22px] font-bold leading-tight text-mv-primary md:text-[26px];
 }
 
 .hero-pattern {
@@ -69,29 +66,56 @@ body {
     linear-gradient(135deg, #0f2c6b 0%, #1a56db 55%, #0f2c6b 100%);
 }
 
-/* Shared UI primitives */
-.mv-card {
-  @apply rounded-xl border border-mv-border bg-white shadow-sm;
-}
+/*
+ * Shared UI primitives, wrapped in @layer components so plain Tailwind
+ * utility classNames (e.g. "mv-input pl-11") reliably win the cascade.
+ * Tailwind v4 places generated utilities in a named @layer; per the CSS
+ * spec, ANY unlayered rule always beats a layered one regardless of
+ * selector specificity or source order. These classes were previously
+ * declared unlayered, so e.g. .mv-input's own px-4 was silently winning
+ * over a later pl-11 override on icon-prefixed inputs (login/signup email
+ * & password fields, search bars, etc.) — the icon and placeholder text
+ * ended up overlapping instead of the icon getting its own reserved space.
+ */
+@layer components {
+  .mv-container {
+    @apply mx-auto w-full max-w-[1280px] px-4 md:px-6 lg:px-8;
+  }
 
-.mv-card-hover {
-  @apply transition hover:-translate-y-0.5 hover:shadow-md;
-}
+  .section-title {
+    @apply text-[22px] font-bold leading-tight text-mv-text md:text-[26px];
+  }
 
-.mv-input {
-  @apply w-full rounded-xl border border-mv-border px-4 py-3 text-[13px] outline-none transition focus:border-mv-primary focus:ring-2 focus:ring-mv-primary/10;
-}
+  .section-title-blue {
+    @apply text-[22px] font-bold leading-tight text-mv-primary md:text-[26px];
+  }
 
-.mv-btn-primary {
-  @apply inline-flex items-center justify-center rounded-xl bg-mv-primary px-6 py-3 text-[13px] font-bold text-white transition hover:bg-mv-primary-dark;
-}
+  .mv-card {
+    @apply rounded-xl border border-mv-border bg-white shadow-sm;
+  }
 
-.mv-btn-red {
-  @apply inline-flex items-center justify-center rounded-xl bg-mv-red px-6 py-3 text-[13px] font-bold text-white transition hover:bg-mv-red-dark;
-}
+  /* Product/service cards site-wide: lift + shadow + a visible color shift
+     on hover (border turns brand-blue, subtle blue-tinted shadow) so
+     hovering a card gives clear color feedback, not just a shadow. */
+  .mv-card-hover {
+    @apply transition hover:-translate-y-0.5 hover:border-mv-primary hover:shadow-lg hover:shadow-mv-primary/10;
+  }
 
-.mv-btn-outline {
-  @apply inline-flex items-center justify-center rounded-xl border-2 border-mv-primary px-6 py-3 text-[13px] font-semibold text-mv-primary transition hover:bg-mv-blue-light;
+  .mv-input {
+    @apply w-full rounded-xl border border-mv-border px-4 py-3 text-[13px] outline-none transition focus:border-mv-primary focus:ring-2 focus:ring-mv-primary/10;
+  }
+
+  .mv-btn-primary {
+    @apply inline-flex items-center justify-center rounded-xl bg-mv-primary px-6 py-3 text-[13px] font-bold text-white transition hover:bg-mv-primary-dark;
+  }
+
+  .mv-btn-red {
+    @apply inline-flex items-center justify-center rounded-xl bg-mv-red px-6 py-3 text-[13px] font-bold text-white transition hover:bg-mv-red-dark;
+  }
+
+  .mv-btn-outline {
+    @apply inline-flex items-center justify-center rounded-xl border-2 border-mv-primary px-6 py-3 text-[13px] font-semibold text-mv-primary transition hover:bg-mv-blue-light;
+  }
 }
 
 /* Header button — wave ripple on hover */
@@ -296,6 +320,23 @@ body {
   }
 }
 
+@media print {
+  header,
+  footer,
+  .road-animation-wrap,
+  .print\:hidden {
+    display: none !important;
+  }
+
+  body {
+    background: #fff !important;
+  }
+
+  main {
+    padding: 0 !important;
+  }
+}
+
 .road-animation-wrap {
   display: block;
 }
@@ -313,4 +354,15 @@ body {
   height: 100%;
   pointer-events: none;
   z-index: 1;
+}
+
+/* Swiper sliders (testimonials, brand strip, etc.) — brand-colored dots
+   instead of Swiper's default dark-grey theme. */
+.swiper-pagination-bullet {
+  background: var(--mv-border);
+  opacity: 1;
+}
+
+.swiper-pagination-bullet-active {
+  background: var(--mv-primary);
 }

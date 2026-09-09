@@ -1,8 +1,23 @@
-import { branches } from "@/data/branches";
+import { branches as fallbackBranches } from "@/data/branches";
+import { useStores } from "@/hooks/useStores";
 import { cn } from "@/lib/utils";
 import { FooterWave } from "@/components/layout/FooterWave";
 
 export function BranchesSection() {
+  const { data: stores } = useStores();
+
+  const branches = stores?.length
+    ? stores.map((store) => ({
+        id: store.id,
+        category: store.branch_type?.toUpperCase() ?? "BRANCH",
+        name: store.name,
+        subtitle: store.branch_type ?? "Branch",
+        location: [store.address, store.city].filter(Boolean).join(", "),
+        status: "open" as const,
+        statusLabel: undefined as string | undefined,
+      }))
+    : fallbackBranches;
+
   return (
     <section className="bg-mv-navy pb-12 pt-0 text-white md:pb-16" aria-labelledby="branches-heading">
       <FooterWave />

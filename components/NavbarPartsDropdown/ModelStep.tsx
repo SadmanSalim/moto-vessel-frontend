@@ -3,78 +3,85 @@
 import Image from "next/image";
 import { Check } from "lucide-react";
 import { useState } from "react";
-import { brandSlug, modelSlug, type BrandName } from "./data";
+import type { VehicleBrand, VehicleModel } from "@/types";
 import { cn } from "@/lib/utils";
 
 type ModelStepProps = {
-  selectedBrand: BrandName;
-  selectedModel: string | null;
-  models: string[];
-  onSelect: (model: string) => void;
+  selectedBrand: VehicleBrand;
+  selectedModel: VehicleModel | null;
+  models: VehicleModel[];
+  isLoading?: boolean;
+  onSelect: (model: VehicleModel) => void;
   onBack: () => void;
   onNext: () => void;
 };
 
-function ModelImage({ brand, model }: { brand: BrandName; model: string }) {
+function ModelImage({ model }: { model: VehicleModel }) {
   const [failed, setFailed] = useState(false);
-  const src = `/models/${brandSlug(brand)}/${modelSlug(model)}.jpg`;
 
-  if (failed) {
+  if (failed || !model.image_path) {
     return (
       <div className="flex h-full min-h-[100px] w-full items-center justify-center bg-[#1a1a1a] text-[11px] font-medium text-white/60">
-        {model}
+        {model.name}
       </div>
     );
   }
 
   return (
     <div className="relative h-[100px] w-full overflow-hidden bg-[#1a1a1a]">
-      <Image src={src} alt={model} fill className="object-cover" onError={() => setFailed(true)} />
+      <Image src={model.image_path} alt={model.name} fill className="object-cover" onError={() => setFailed(true)} />
     </div>
   );
 }
 
-export function ModelStep({ selectedBrand, selectedModel, models, onSelect, onBack, onNext }: ModelStepProps) {
+export function ModelStep({ selectedBrand, selectedModel, models, isLoading, onSelect, onBack, onNext }: ModelStepProps) {
   return (
     <>
       <div className="text-center">
         <h2 className="text-[28px] font-extrabold tracking-tight text-[#1a2e6f]">Select Vehicle Model</h2>
         <p className="mt-2 text-[13px] text-[#6b7c95]">
-          Step 2: Choose your specific model for <span className="font-bold text-[#2563eb]">{selectedBrand}</span>
+          Step 2: Choose your specific model for <span className="font-bold text-[#2563eb]">{selectedBrand.name}</span>
         </p>
       </div>
 
-      <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
-        {models.map((model) => {
-          const isSelected = selectedModel === model;
-          return (
-            <button
-              key={model}
-              type="button"
-              onClick={() => onSelect(model)}
-              className={cn(
-                "group relative overflow-hidden rounded-[12px] border-2 bg-[#f8f9fb] text-left transition hover:-translate-y-0.5",
-                isSelected ? "border-[#2563eb] shadow-[0_8px_24px_rgba(37,99,235,0.12)]" : "border-transparent hover:border-[#2563eb]/35",
-              )}
-            >
-              {isSelected ? (
-                <span className="absolute right-2 top-2 z-[2] flex h-6 w-6 items-center justify-center rounded-full bg-[#2563eb] text-white shadow-sm">
-                  <Check size={14} strokeWidth={3} />
-                </span>
-              ) : null}
-              <ModelImage brand={selectedBrand} model={model} />
-              <p className="px-3 py-3 text-center text-[13px] font-bold text-[#1a2e6f]">{model}</p>
-            </button>
-          );
-        })}
-      </div>
+      {isLoading ? (
+        <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <div key={i} className="animate-pulse rounded-[12px] bg-gray-100">
+              <div className="h-[100px] bg-gray-200" />
+              <div className="mx-auto my-3 h-3 w-20 rounded bg-gray-200" />
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
+          {models.map((model) => {
+            const isSelected = selectedModel?.id === model.id;
+            return (
+              <button
+                key={model.id}
+                type="button"
+                onClick={() => onSelect(model)}
+                className={cn(
+                  "group relative overflow-hidden rounded-[12px] border-2 bg-[#f8f9fb] text-left transition hover:-translate-y-0.5",
+                  isSelected ? "border-[#2563eb] shadow-[0_8px_24px_rgba(37,99,235,0.12)]" : "border-transparent hover:border-[#2563eb]/35",
+                )}
+              >
+                {isSelected ? (
+                  <span className="absolute right-2 top-2 z-[2] flex h-6 w-6 items-center justify-center rounded-full bg-[#2563eb] text-white shadow-sm">
+                    <Check size={14} strokeWidth={3} />
+                  </span>
+                ) : null}
+                <ModelImage model={model} />
+                <p className="px-3 py-3 text-center text-[13px] font-bold text-[#1a2e6f]">{model.name}</p>
+              </button>
+            );
+          })}
+        </div>
+      )}
 
       <div className="mt-8 flex items-center justify-between border-t border-[#eef2f8] pt-5">
-        <button
-          type="button"
-          onClick={onBack}
-          className="text-[13px] font-medium text-[#1a2e6f] transition hover:text-[#2563eb]"
-        >
+        <button type="button" onClick={onBack} className="text-[13px] font-medium text-[#1a2e6f] transition hover:text-[#2563eb]">
           ← Back to Brand
         </button>
         <button

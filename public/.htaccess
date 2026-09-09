@@ -1,0 +1,49 @@
+# Deployed as a static export (output: 'export') to Hostinger shared
+# hosting, which has no Node.js runtime — this .htaccess just makes plain
+# Apache behave a bit more like a proper web app host.
+
+# Serve Next's own 404 page instead of Apache's default one.
+ErrorDocument 404 /404.html
+
+# Don't show directory listings for any folder that's missing an index.html.
+Options -Indexes
+
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css application/javascript application/json image/svg+xml
+</IfModule>
+
+# _next/static/* files are content-hashed (the filename changes whenever the
+# content does), so they're safe to cache hard for a year.
+<IfModule mod_headers.c>
+  <FilesMatch "^.+\.(js|css)$">
+    <If "%{REQUEST_URI} =~ m#^/_next/static/#">
+      Header set Cache-Control "public, max-age=31536000, immutable"
+    </If>
+  </FilesMatch>
+</IfModule>
+
+# Static assets under /images/* and /_next/static/media/* (promo videos,
+# app screenshots, fonts, etc.) aren't content-hashed the same way, but they
+# still only change when someone replaces the file — a PageSpeed audit
+# flagged ~55MB of these being re-downloaded on every repeat visit with no
+# cache headers at all. A day is a reasonable middle ground: long enough to
+# actually help repeat visits, short enough that a swapped-out promo video
+# or image shows up again soon without anyone needing to hard-refresh.
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType image/jpeg "access plus 1 week"
+  ExpiresByType image/png "access plus 1 week"
+  ExpiresByType image/webp "access plus 1 week"
+  ExpiresByType image/avif "access plus 1 week"
+  ExpiresByType image/svg+xml "access plus 1 week"
+  ExpiresByType video/mp4 "access plus 1 week"
+  ExpiresByType font/woff2 "access plus 1 year"
+</IfModule>
+<IfModule mod_headers.c>
+  <FilesMatch "\.(jpe?g|png|webp|avif|svg|mp4|webm)$">
+    Header set Cache-Control "public, max-age=604800"
+  </FilesMatch>
+  <FilesMatch "\.woff2$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+</IfModule>

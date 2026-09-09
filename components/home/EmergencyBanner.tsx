@@ -21,7 +21,7 @@ export function EmergencyBanner() {
                 className="mt-6 inline-flex items-center gap-2 rounded-full bg-white px-7 py-3 text-[13px] font-bold text-mv-red transition hover:bg-gray-100"
               >
                 <Phone size={16} />
-                Call Now: +8801XXXXXXXX
+                Call Now: +880 1322-910229
               </Link>
             </div>
 

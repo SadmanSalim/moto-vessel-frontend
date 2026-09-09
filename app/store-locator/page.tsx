@@ -2,49 +2,15 @@
 
 import { ChevronDown, Filter, Shield, User, Zap } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { BangladeshMap3D } from "@/components/BangladeshMap3D";
+import ErrorMessage from "@/components/ErrorMessage";
+import StoreCardSkeleton from "@/components/skeletons/StoreCardSkeleton";
+import { useStores } from "@/hooks/useStores";
 import { useReveal } from "@/hooks/useReveal";
+import { getErrorMessage } from "@/lib/api";
 import { cn } from "@/lib/utils";
-
-const stores = [
-  {
-    id: 1,
-    name: "Dhaka Central Hub",
-    badge: "FLAGSHIP",
-    rating: 4.9,
-    address: "Plot 12, Block C, Banani, Dhaka 1213",
-    tags: ["SALES", "SERVICE", "CUSTOMIZATION"],
-    status: "Open until 8:00 PM",
-    open: true,
-  },
-  {
-    id: 2,
-    name: "Chattogram Coastal Port",
-    badge: "PREMIUM",
-    rating: 4.7,
-    address: "Agrabad Commercial Area, Chattogram 4100",
-    tags: ["SALES", "CERTIFIED SPARE PARTS"],
-    status: "Open until 7:30 PM",
-    open: true,
-  },
-  {
-    id: 3,
-    name: "Sylhet Expressway",
-    badge: "SERVICE POINT",
-    rating: 4.8,
-    address: "Zindabazar Main Road, Sylhet 3100",
-    tags: ["EXPRESS SERVICE"],
-    status: "Closed Now",
-    open: false,
-  },
-];
-
-const mapStores = [
-  { id: 1, name: "Dhaka Central Hub", x: 218, y: 268, open: true },
-  { id: 2, name: "Chattogram Coastal Port", x: 312, y: 358, open: true },
-  { id: 3, name: "Sylhet Expressway", x: 278, y: 128, open: false },
-];
+import type { StoreLocation } from "@/types";
 
 const precisionFeatures = [
   { icon: Shield, title: "Authentic Parts", desc: "Every component is sourced directly from OEM manufacturers with full certification." },
@@ -52,9 +18,44 @@ const precisionFeatures = [
   { icon: Zap, title: "Quick Service", desc: "Express service bays ensure your vehicle is back on the road in record time." },
 ];
 
+function isStoreOpen(store: StoreLocation): boolean {
+  if (!store.opening_time || !store.closing_time) return store.is_active;
+  const now = new Date();
+  const [openH, openM] = store.opening_time.split(":").map(Number);
+  const [closeH, closeM] = store.closing_time.split(":").map(Number);
+  const current = now.getHours() * 60 + now.getMinutes();
+  return current >= openH * 60 + (openM || 0) && current <= closeH * 60 + (closeM || 0);
+}
+
+function storeStatusLabel(store: StoreLocation): string {
+  const open = isStoreOpen(store);
+  return open ? `Open until ${store.closing_time}` : "Closed Now";
+}
+
+/** Approximate map pin positions from lat/lng for Bangladesh */
+function latLngToMapXY(lat: number, lng: number): { x: number; y: number } {
+  const x = ((lng - 88) / (93 - 88)) * 360 + 40;
+  const y = ((26 - lat) / (26 - 20)) * 320 + 40;
+  return { x: Math.round(x), y: Math.round(y) };
+}
+
 export default function StoreLocatorPage() {
-  const [activeStore, setActiveStore] = useState(1);
+  const [activeStore, setActiveStore] = useState<number | null>(null);
+  const { data: stores, isLoading, isError, error } = useStores();
   useReveal();
+
+  const mapStores = useMemo(
+    () =>
+      (stores ?? []).map((s) => ({
+        id: s.id,
+        name: s.name,
+        ...latLngToMapXY(Number(s.latitude), Number(s.longitude)),
+        open: isStoreOpen(s),
+      })),
+    [stores],
+  );
+
+  const selectedId = activeStore ?? stores?.[0]?.id ?? null;
 
   return (
     <div className="bg-[#f7f9fd]">
@@ -99,51 +100,62 @@ export default function StoreLocatorPage() {
 
             <div className="grid gap-6 lg:grid-cols-2">
               <div className="space-y-4">
-                {stores.map((store, index) => (
+                {isLoading &&
+                  Array.from({ length: 3 }).map((_, i) => <StoreCardSkeleton key={i} />)}
+                {isError && <ErrorMessage message={getErrorMessage(error)} />}
+                {stores?.map((store, index) => {
+                  const open = isStoreOpen(store);
+                  return (
                   <article
                     key={store.id}
                     onClick={() => setActiveStore(store.id)}
                     className={cn(
                       `reveal-left d${index + 1} cursor-pointer rounded-[16px] border bg-white p-5 transition hover:shadow-md`,
-                      activeStore === store.id ? "border-mv-primary shadow-[0_0_20px_rgba(26,86,219,0.1)]" : "border-mv-border",
+                      selectedId === store.id ? "border-mv-primary shadow-[0_0_20px_rgba(26,86,219,0.1)]" : "border-mv-border",
                     )}
                   >
                     <div className="flex items-start justify-between gap-2">
                       <div>
-                        <span className="rounded-full bg-mv-blue-light px-2.5 py-0.5 text-[10px] font-bold text-mv-primary">{store.badge}</span>
+                        <span className="rounded-full bg-mv-blue-light px-2.5 py-0.5 text-[10px] font-bold text-mv-primary">
+                          {store.branch_type.replace("_", " ").toUpperCase()}
+                        </span>
                         <h3 className="mt-2 text-[16px] font-bold text-mv-text">{store.name}</h3>
                       </div>
-                      <span className="flex items-center gap-0.5 text-[12px] font-semibold text-amber-500">
-                        ★ {store.rating}
-                      </span>
                     </div>
                     <p className="mt-2 text-[12px] text-mv-muted">{store.address}</p>
                     <div className="mt-3 flex flex-wrap gap-1.5">
-                      {store.tags.map((tag) => (
+                      {(store.services ?? []).map((tag) => (
                         <span key={tag} className="rounded bg-mv-bg px-2 py-0.5 text-[10px] font-semibold text-mv-muted">
-                          {tag}
+                          {tag.toUpperCase()}
                         </span>
                       ))}
                     </div>
                     <div className="mt-3 flex items-center justify-between">
-                      <span className={cn("inline-flex items-center gap-1.5 text-[12px] font-semibold", store.open ? "text-green-600" : "text-mv-red")}>
-                        <span className={cn("h-2 w-2 rounded-full", store.open ? "bg-green-500" : "bg-red-500")} />
-                        {store.status}
+                      <span className={cn("inline-flex items-center gap-1.5 text-[12px] font-semibold", open ? "text-green-600" : "text-mv-red")}>
+                        <span className={cn("h-2 w-2 rounded-full", open ? "bg-green-500" : "bg-red-500")} />
+                        {storeStatusLabel(store)}
                       </span>
                       <button type="button" className="text-[12px] font-semibold text-mv-primary hover:underline">
                         View Map →
                       </button>
                     </div>
                   </article>
-                ))}
+                  );
+                })}
               </div>
 
               <div className="reveal-right relative overflow-hidden rounded-[18px] border border-mv-border bg-white p-4 shadow-[0_10px_30px_rgba(13,71,161,0.08)]">
+                {mapStores.length > 0 ? (
                 <BangladeshMap3D
                   stores={mapStores}
-                  activeStoreId={activeStore}
+                  activeStoreId={selectedId ?? mapStores[0].id}
                   onStoreSelect={setActiveStore}
                 />
+                ) : (
+                  <div className="flex h-[320px] items-center justify-center text-[13px] text-mv-muted">
+                    {isLoading ? "Loading map..." : "No stores to display"}
+                  </div>
+                )}
               </div>
             </div>
           </div>

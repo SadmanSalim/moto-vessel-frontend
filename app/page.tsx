@@ -1,34 +1,27 @@
-"use client";
+import HomeClient from "@/components/home/HomeClient";
+import { fetchCmsHomepage, fetchFeaturedProducts, fetchHeroBanners, fetchNavCategories } from "@/lib/serverApi";
 
-import { CategorySlider } from "@/components/home/CategorySlider";
-import { EmergencyBanner } from "@/components/home/EmergencyBanner";
-import { FeaturedPartsSection } from "@/components/home/FeaturedPartsSection";
-import { HeroSection } from "@/components/home/HeroSection";
-import { MobileAppSection } from "@/components/home/MobileAppSection";
-import { PremiumBrands } from "@/components/home/PremiumBrands";
-import { ScrollToTop } from "@/components/home/ScrollToTop";
-import { TestimonialSection } from "@/components/home/TestimonialSection";
-import { ValuePromiseSection } from "@/components/home/ValuePromiseSection";
-import { VehicleFilterBar } from "@/components/home/VehicleFilterBar";
-import { VideoGallery } from "@/components/home/VideoGallery";
-import { useReveal } from "@/hooks/useReveal";
-
-export default function Home() {
-  useReveal();
+// Server component so the hero banner, homepage section config, the
+// default "Best Selling" product tab, and the category strip are all
+// fetched at build time and baked into the static HTML, instead of the
+// previous all-client-side setup where nothing below the header could
+// render real content until multiple sequential API calls resolved in the
+// browser (and CategorySlider in particular briefly showed a hardcoded
+// placeholder category list every time).
+export default async function Home() {
+  const [initialBanners, initialHomepage, initialFeaturedProducts, initialCategories] = await Promise.all([
+    fetchHeroBanners(),
+    fetchCmsHomepage(),
+    fetchFeaturedProducts(4),
+    fetchNavCategories(),
+  ]);
 
   return (
-    <>
-      <HeroSection />
-      <CategorySlider />
-      <VehicleFilterBar />
-      <FeaturedPartsSection />
-      <ValuePromiseSection />
-      <MobileAppSection />
-      <EmergencyBanner />
-      <VideoGallery />
-      <TestimonialSection />
-      <PremiumBrands />
-      <ScrollToTop />
-    </>
+    <HomeClient
+      initialBanners={initialBanners}
+      initialHomepage={initialHomepage}
+      initialFeaturedProducts={initialFeaturedProducts}
+      initialCategories={initialCategories}
+    />
   );
 }

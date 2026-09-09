@@ -7,8 +7,13 @@ export type Product = {
   image: string;
   badge?: string;
   rating: number;
+  reviewCount?: number;
   slug?: string;
   stockStatus?: "in-stock" | "out-of-stock" | "low-stock";
+  /** 'pos' = synced from the POS system, 'website' = created manually in the admin panel. */
+  source?: "pos" | "website";
+  /** False when no price is set — hide Buy Now/Add to Cart, show only "Order on WhatsApp". */
+  hasPrice?: boolean;
 };
 
 const baseProducts: Product[] = [

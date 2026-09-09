@@ -1,79 +1,209 @@
-import Image from "next/image";
+"use client";
+
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
-import { heroStats } from "@/data/services";
+import { useCallback, useEffect, useRef, useState } from "react";
+import ErrorMessage from "@/components/ErrorMessage";
+import BannerSkeleton from "@/components/skeletons/BannerSkeleton";
+import { useBanners } from "@/hooks/useBanners";
+import { getErrorMessage } from "@/lib/api";
+import { cn } from "@/lib/utils";
+import type { Banner } from "@/types";
 
-export function HeroSection() {
+const AUTOPLAY_MS = 6000;
+
+const fallbackSlide: Banner = {
+  id: 0,
+  title: "",
+  image_url: "/images/placeholders/hero.svg",
+};
+
+export function HeroSection({ initialBanners }: { initialBanners?: Banner[] } = {}) {
+  const { data: banners, isLoading, isError, error } = useBanners(initialBanners);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const touchStartX = useRef<number | null>(null);
+
+  const slides = banners?.length ? banners : [fallbackSlide];
+  const hasMultiple = slides.length > 1;
+
+  const goTo = useCallback(
+    (index: number) => setActiveIndex((index + slides.length) % slides.length),
+    [slides.length],
+  );
+  const next = useCallback(() => goTo(activeIndex + 1), [activeIndex, goTo]);
+  const prev = useCallback(() => goTo(activeIndex - 1), [activeIndex, goTo]);
+
+  useEffect(() => {
+    if (!hasMultiple || isPaused) return;
+    const timer = setInterval(next, AUTOPLAY_MS);
+    return () => clearInterval(timer);
+  }, [hasMultiple, isPaused, next]);
+
+  // Keep the active index valid if the slide count changes (e.g. data refetch).
+  useEffect(() => {
+    if (activeIndex >= slides.length) setActiveIndex(0);
+  }, [activeIndex, slides.length]);
+
+  if (isLoading) {
+    return (
+      <section className="relative overflow-hidden bg-mv-navy">
+        <BannerSkeleton />
+      </section>
+    );
+  }
+
+  if (isError) {
+    return (
+      <section className="relative overflow-hidden bg-mv-navy py-8">
+        <div className="mv-container">
+          <ErrorMessage message={getErrorMessage(error)} />
+        </div>
+      </section>
+    );
+  }
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX.current === null) return;
+    const delta = e.changedTouches[0].clientX - touchStartX.current;
+    if (Math.abs(delta) > 40) {
+      if (delta < 0) next();
+      else prev();
+    }
+    touchStartX.current = null;
+  };
+
   return (
-    <section className="hero-pattern relative overflow-hidden pb-12 pt-8 md:pb-16 md:pt-10">
-      <div
-        className="pointer-events-none absolute inset-0 opacity-30"
-        style={{
-          backgroundImage: "url('/images/placeholders/hero.svg')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-        aria-hidden
-      />
-      <div className="absolute inset-0 bg-gradient-to-r from-mv-navy/95 via-mv-navy/80 to-mv-primary/40" aria-hidden />
+    <section
+      className="relative w-full overflow-hidden bg-mv-navy"
+      aria-roledescription="carousel"
+      aria-label="Homepage promotional banners"
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+    >
+      <div className="relative h-[280px] w-full sm:h-[360px] md:h-[440px] lg:h-[520px]">
+        {slides.map((slide, index) => {
+          const isActive = index === activeIndex;
+          const hasOverlay = Boolean(slide.title || slide.subtitle || slide.button_text);
 
-      <div className="mv-container relative grid items-center gap-8 md:grid-cols-2 md:gap-10">
-        <div className="max-w-[540px]">
-          <p className="text-[12px] font-semibold uppercase tracking-widest text-mv-primary">MotoVessel Automotive Solutions</p>
-          <h1 className="mt-3 text-[32px] font-extrabold leading-[1.1] tracking-tight text-white sm:text-[40px] lg:text-[46px]">
-            Built for Performance &amp; Trust
-          </h1>
-          <p className="mt-4 text-[14px] leading-relaxed text-white/80">
-            Discover curated OEM and performance components engineered for reliability, speed, and precision fit — trusted by
-            professionals and enthusiasts nationwide.
-          </p>
-          <div className="mt-7 flex flex-wrap gap-3">
-            <Link
-              href="/products/brake-shoes"
-              className="rounded-full bg-white px-7 py-3 text-[13px] font-bold text-mv-primary shadow-md transition hover:bg-mv-blue-light"
+          const slideContent = (
+            <>
+              {slide.video_url ? (
+                <video
+                  key={slide.video_url}
+                  src={slide.video_url}
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  // LCP is scored off the poster frame for <video>, not the
+                  // full file — preload="auto" was forcing a needless
+                  // multi-MB eager download that competed with everything
+                  // else for bandwidth right at page load. "metadata" is
+                  // enough for the poster to paint immediately; playback
+                  // then streams in progressively once autoplay kicks in.
+                  preload={index === 0 ? "metadata" : "none"}
+                  poster={slide.image_url}
+                  className="absolute inset-0 h-full w-full object-cover"
+                />
+              ) : (
+                // eslint-disable-next-line @next/next/no-img-element -- full-bleed remote banner served straight from the backend; avoids Next's image-optimizer proxy so it isn't gated on the dev server picking up remotePatterns config changes on restart.
+                <img
+                  src={slide.image_url}
+                  alt={slide.title || "Promotional banner"}
+                  loading={index === 0 ? "eager" : "lazy"}
+                  fetchPriority={index === 0 ? "high" : "auto"}
+                  className="absolute inset-0 h-full w-full object-cover"
+                />
+              )}
+              {hasOverlay ? (
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" aria-hidden />
+              ) : null}
+              {hasOverlay ? (
+                <div className="mv-container absolute inset-x-0 bottom-0 pb-8 md:pb-12">
+                  <div className="max-w-[560px]">
+                    {slide.title ? (
+                      <h1 className="text-[24px] font-extrabold leading-tight text-white sm:text-[32px] lg:text-[40px]">
+                        {slide.title}
+                      </h1>
+                    ) : null}
+                    {slide.subtitle ? (
+                      <p className="mt-2 text-[13px] leading-relaxed text-white/85 sm:text-[14px]">{slide.subtitle}</p>
+                    ) : null}
+                    {slide.button_text && slide.button_link ? (
+                      <span className="mt-5 inline-flex rounded-full bg-white px-6 py-2.5 text-[13px] font-bold text-mv-primary shadow-md transition group-hover:bg-mv-blue-light">
+                        {slide.button_text}
+                      </span>
+                    ) : null}
+                  </div>
+                </div>
+              ) : null}
+            </>
+          );
+
+          return (
+            <div
+              key={slide.id}
+              aria-hidden={!isActive}
+              className={cn(
+                "absolute inset-0 transition-opacity duration-700 ease-in-out",
+                isActive ? "opacity-100" : "pointer-events-none opacity-0",
+              )}
             >
-              Get Started
-            </Link>
-            <Link
-              href="/services"
-              className="rounded-full border-2 border-white/80 px-7 py-3 text-[13px] font-bold text-white transition hover:bg-white/10"
+              {slide.button_link ? (
+                <Link href={slide.button_link} className="group relative block h-full w-full" tabIndex={isActive ? 0 : -1}>
+                  {slideContent}
+                </Link>
+              ) : (
+                <div className="relative h-full w-full">{slideContent}</div>
+              )}
+            </div>
+          );
+        })}
+
+        {hasMultiple ? (
+          <>
+            <button
+              type="button"
+              onClick={prev}
+              aria-label="Previous banner"
+              className="absolute left-3 top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/25 text-white backdrop-blur transition hover:bg-white/40 sm:left-5 sm:h-10 sm:w-10"
             >
-              Learn More
-            </Link>
-          </div>
+              <ChevronLeft size={20} />
+            </button>
+            <button
+              type="button"
+              onClick={next}
+              aria-label="Next banner"
+              className="absolute right-3 top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/25 text-white backdrop-blur transition hover:bg-white/40 sm:right-5 sm:h-10 sm:w-10"
+            >
+              <ChevronRight size={20} />
+            </button>
 
-          <dl className="mt-9 flex flex-wrap gap-x-8 gap-y-4">
-            {heroStats.map((stat) => (
-              <div key={stat.id}>
-                <dt className="sr-only">{stat.label}</dt>
-                <dd className="text-[22px] font-extrabold leading-none text-white md:text-[26px]">{stat.value}</dd>
-                <dd className="mt-1 text-[11px] text-white/65">{stat.label}</dd>
-              </div>
-            ))}
-          </dl>
-        </div>
-
-        <div className="relative mx-auto w-full max-w-[420px] md:mx-0 md:ml-auto">
-          <div className="space-y-3">
-            <article className="flex items-center gap-3 rounded-xl bg-white/95 p-3 shadow-lg backdrop-blur">
-              <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-lg bg-mv-blue-light">
-                <Image src="/images/placeholders/product.svg" alt="" fill className="object-contain p-1.5" />
-              </div>
-              <div className="min-w-0 flex-1">
-                <p className="text-[13px] font-semibold text-mv-text">Engine Oil 5W-30</p>
-                <p className="text-[16px] font-bold text-mv-primary">৳2,800</p>
-              </div>
-            </article>
-            <article className="ml-8 flex items-center gap-3 rounded-xl bg-white/95 p-3 shadow-lg backdrop-blur">
-              <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-lg bg-mv-blue-light">
-                <Image src="/images/placeholders/product.svg" alt="" fill className="object-contain p-1.5" />
-              </div>
-              <div className="min-w-0 flex-1">
-                <p className="text-[13px] font-semibold text-mv-text">Premium Brake Pads</p>
-                <p className="text-[16px] font-bold text-mv-primary">৳4,500</p>
-              </div>
-            </article>
-          </div>
-        </div>
+            <div className="absolute inset-x-0 bottom-3 z-10 flex justify-center gap-2 sm:bottom-4" role="tablist" aria-label="Banner navigation">
+              {slides.map((slide, index) => (
+                <button
+                  key={slide.id}
+                  type="button"
+                  role="tab"
+                  aria-selected={index === activeIndex}
+                  aria-label={`Go to banner ${index + 1}`}
+                  onClick={() => goTo(index)}
+                  className={cn(
+                    "h-2 rounded-full transition-all",
+                    index === activeIndex ? "w-6 bg-white" : "w-2 bg-white/50 hover:bg-white/75",
+                  )}
+                />
+              ))}
+            </div>
+          </>
+        ) : null}
       </div>
     </section>
   );

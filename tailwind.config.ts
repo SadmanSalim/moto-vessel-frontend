@@ -22,10 +22,11 @@ const config: Config = {
         "mv-blue-light": "#EBF2FF",
       },
       fontFamily: {
-        sans: ["var(--font-inter)", "system-ui", "sans-serif"],
+        sans: ["var(--font-body)", "system-ui", "sans-serif"],
+        heading: ["var(--font-heading)", "var(--font-body)", "system-ui", "sans-serif"],
       },
       borderRadius: {
-        xl: "12px",
+        xl: "var(--mv-radius-xl, 12px)",
       },
     },
   },

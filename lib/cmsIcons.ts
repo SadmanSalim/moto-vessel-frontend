@@ -1,0 +1,51 @@
+import {
+  BadgeCheck,
+  Banknote,
+  Battery,
+  Circle,
+  CircleDot,
+  Cog,
+  CreditCard,
+  Disc,
+  Droplets,
+  Filter,
+  Globe,
+  Headphones,
+  Lightbulb,
+  Lock,
+  Package,
+  Plane,
+  RefreshCw,
+  ShieldCheck,
+  Truck,
+  Wrench,
+  Zap,
+  type LucideIcon,
+} from "lucide-react";
+
+const iconMap: Record<string, LucideIcon> = {
+  "badge-check": BadgeCheck,
+  truck: Truck,
+  headphones: Headphones,
+  "refresh-cw": RefreshCw,
+  "shield-check": ShieldCheck,
+  package: Package,
+  droplets: Droplets,
+  disc: Disc,
+  wrench: Wrench,
+  lightbulb: Lightbulb,
+  filter: Filter,
+  battery: Battery,
+  "circle-dot": CircleDot,
+  cog: Cog,
+  zap: Zap,
+  plane: Plane,
+  banknote: Banknote,
+  lock: Lock,
+  "credit-card": CreditCard,
+  globe: Globe,
+};
+
+export function resolveCmsIcon(name: string): LucideIcon {
+  return iconMap[name] ?? Circle;
+}

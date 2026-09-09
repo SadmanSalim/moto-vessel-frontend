@@ -1,13 +1,15 @@
 import { Check } from "lucide-react";
+import type { VehicleEngine } from "@/types";
 import { cn } from "@/lib/utils";
 
 type EngineStepProps = {
   selectedBrand: string;
   selectedModel: string;
   selectedYear: string;
-  selectedEngine: string | null;
-  engines: string[];
-  onSelect: (engine: string) => void;
+  selectedEngine: VehicleEngine | null;
+  engines: VehicleEngine[];
+  isLoading?: boolean;
+  onSelect: (engine: VehicleEngine) => void;
   onBack: () => void;
   onFindParts: () => void;
 };
@@ -18,6 +20,7 @@ export function EngineStep({
   selectedYear,
   selectedEngine,
   engines,
+  isLoading,
   onSelect,
   onBack,
   onFindParts,
@@ -34,39 +37,45 @@ export function EngineStep({
         </p>
       </div>
 
-      <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-        {engines.map((engine) => {
-          const isSelected = selectedEngine === engine;
-          return (
-            <button
-              key={engine}
-              type="button"
-              onClick={() => onSelect(engine)}
-              className={cn(
-                "relative rounded-[12px] border-2 bg-white px-4 py-4 text-left shadow-sm transition hover:-translate-y-0.5",
-                isSelected
-                  ? "border-[#2563eb] shadow-[0_8px_24px_rgba(37,99,235,0.12)]"
-                  : "border-[#e8edf5] hover:border-[#2563eb]/40",
-              )}
-            >
-              {isSelected ? (
-                <span className="absolute right-3 top-3 flex h-5 w-5 items-center justify-center rounded-full bg-[#2563eb] text-white">
-                  <Check size={12} strokeWidth={3} />
-                </span>
-              ) : null}
-              <p className="pr-6 text-[14px] font-bold text-[#1a2e6f]">{engine}</p>
-              <p className="mt-1 text-[11px] text-[#6b7c95]">OEM-compatible fitment</p>
-            </button>
-          );
-        })}
-      </div>
+      {isLoading ? (
+        <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {Array.from({ length: 3 }).map((_, i) => (
+            <div key={i} className="animate-pulse rounded-[12px] bg-gray-100 p-4">
+              <div className="h-4 w-3/4 rounded bg-gray-200" />
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {engines.map((engine) => {
+            const isSelected = selectedEngine?.id === engine.id;
+            return (
+              <button
+                key={engine.id}
+                type="button"
+                onClick={() => onSelect(engine)}
+                className={cn(
+                  "relative rounded-[12px] border-2 bg-white px-4 py-4 text-left shadow-sm transition hover:-translate-y-0.5",
+                  isSelected
+                    ? "border-[#2563eb] shadow-[0_8px_24px_rgba(37,99,235,0.12)]"
+                    : "border-[#e8edf5] hover:border-[#2563eb]/40",
+                )}
+              >
+                {isSelected ? (
+                  <span className="absolute right-3 top-3 flex h-5 w-5 items-center justify-center rounded-full bg-[#2563eb] text-white">
+                    <Check size={12} strokeWidth={3} />
+                  </span>
+                ) : null}
+                <p className="pr-6 text-[14px] font-bold text-[#1a2e6f]">{engine.name}</p>
+                <p className="mt-1 text-[11px] text-[#6b7c95]">OEM-compatible fitment</p>
+              </button>
+            );
+          })}
+        </div>
+      )}
 
       <div className="mt-8 flex items-center justify-between border-t border-[#eef2f8] pt-5">
-        <button
-          type="button"
-          onClick={onBack}
-          className="text-[13px] font-medium text-[#1a2e6f] transition hover:text-[#2563eb]"
-        >
+        <button type="button" onClick={onBack} className="text-[13px] font-medium text-[#1a2e6f] transition hover:text-[#2563eb]">
           ← Back to Year
         </button>
         <button

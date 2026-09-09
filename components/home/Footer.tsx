@@ -9,6 +9,21 @@ const footerLinks = {
   "My Account": ["Orders", "Wishlist", "Addresses", "Settings"],
 };
 
+// Only links that actually resolve to a real page — everything else in
+// footerLinks above still renders as a label (kept for the marketing
+// layout) but isn't wired to a route yet, so it intentionally falls back
+// to "#" rather than a page that doesn't exist.
+const footerLinkHrefs: Record<string, string> = {
+  "About Us": "/about",
+  Contact: "/contact",
+  "Help Center": "/contact",
+  Orders: "/account/orders",
+  Wishlist: "/account/wishlist",
+  Addresses: "/account/addresses",
+  Settings: "/account/settings",
+  "All Parts": "/products/all",
+};
+
 const paymentMethods = [
   "Visa",
   "Mastercard",
@@ -73,7 +88,7 @@ export function Footer() {
             <ul className="mt-3 space-y-2">
               {links.map((link) => (
                 <li key={link}>
-                  <Link href="#" className="text-[12px] text-white/60 transition hover:text-white">
+                  <Link href={footerLinkHrefs[link] ?? "#"} className="text-[12px] text-white/60 transition hover:text-white">
                     {link}
                   </Link>
                 </li>
@@ -87,10 +102,10 @@ export function Footer() {
         <div className="mv-container flex flex-col items-center justify-between gap-3 py-4 text-[11px] text-white/50 md:flex-row">
           <p>© {new Date().getFullYear()} Moto Vessel. All rights reserved.</p>
           <div className="flex gap-5">
-            <Link href="#" className="transition hover:text-white">
+            <Link href="/privacy" className="transition hover:text-white">
               Privacy Policy
             </Link>
-            <Link href="#" className="transition hover:text-white">
+            <Link href="/terms" className="transition hover:text-white">
               Terms &amp; Conditions
             </Link>
           </div>
